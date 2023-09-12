@@ -68,7 +68,7 @@ export default function Device({ name, index }) {
             <div className="text">
                 <Switch
                     onChange={handleChange}
-                    checked={controllerSignals[index - 1] === 1}
+                    checked={controllerSignals[index - 1] == 1}
                     checkedIcon={false}
                     uncheckedIcon={false}
                     onColor="#3C6255"
