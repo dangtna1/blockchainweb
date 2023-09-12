@@ -1,0 +1,8 @@
+.device{
+    @apply rounded-xl flex items-center justify-between bg-greyscale-100 p-2;
+    
+    &>.text{
+        @apply w-full  text-center font-medium 
+        text-title-2 text-greyscale-400 tracking-[0.2px] ;
+    }
+}

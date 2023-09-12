@@ -1,0 +1,37 @@
+    .controller-container{
+        @apply w-full flex flex-col gap-5 ;
+
+        & >.title{
+            @apply font-bold text-title-4 text-primary-200 flex justify-center mb-4; 
+
+        }
+
+        & >.item-count{
+            @apply  flex gap-2 bg-white rounded-xl py-4 px-6 ;
+            & >.text{
+                @apply font-semibold text-greyscale-400 text-body-2;
+            }
+            & >.count{
+                @apply text-greyscale-900 font-semibold text-body-2 tracking-[0.2px];
+            }
+        }
+
+        & >.devices-controller{
+            @apply p-6 rounded-2xl bg-white;
+            & >.devices-list{
+                @apply flex flex-col gap-4;
+
+                & >.devices-nav{
+                    @apply rounded-xl flex items-center justify-between bg-greyscale-300 p-2;
+                    &>.text{
+                        @apply w-full text-center font-medium text-title-2 text-greyscale-400 tracking-[0.2px] ;
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+
