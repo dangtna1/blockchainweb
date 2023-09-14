@@ -17,6 +17,12 @@ const COLORS = {
     700: "#334155",
     800: "#1E293B",
     900: "#0F172A",
+  },
+  main: {
+    100: "#EDF1D6",
+    200: "#9DC08B",
+    300: "#609966",
+    400: "#40513B",
   }
 }
 function genarateColorTDS() {
@@ -87,6 +93,8 @@ module.exports = {
       },
       boxShadow: {
         'sideBar': '10px 10px 50px 0px rgba(100, 116, 139, 0.04)',
+        'layout': 'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
+        'header': 'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px'
       },
       ringColor: {
         ...COLORS,

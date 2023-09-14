@@ -1,6 +1,8 @@
 import * as React from 'react';
-import './header.css';
+import classes from './Header.module.css';
 import { CropInfoContext } from '../../../../context/CropInfoContext.jsx';
+//Main logo Import
+import logo from '../../../../assets/sideBar/main-logo.svg';
 
 export default function Header() {
     const {
@@ -9,13 +11,16 @@ export default function Header() {
     } = React.useContext(CropInfoContext);
 
     return (
-        <div className="header-container">
-            <div className="header-inner">
-                <div className="title">
+        <div className={classes.header}>
+            <div className={classes.inner}>
+                <div className={classes.logo}>
+                    
+                </div>
+                <div className={classes.title}>
                     "SmartWallet: Revolutionizing Payments with Blockchain"
                 </div>
 
-                <div className="profile">
+                <div className={classes.profile}>
                     {!currentAccount && (
                         <button
                             type="button"

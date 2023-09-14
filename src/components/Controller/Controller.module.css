@@ -1,0 +1,36 @@
+.controller{
+    @apply  flex flex-col gap-2 ;
+
+    .title{
+        @apply font-bold text-2xl uppercase text-primary-200 ; 
+
+    }
+    .item-count{
+        @apply  flex gap-2 bg-white rounded-xl py-4 items-center ;
+        & >.text{
+            @apply font-semibold text-greyscale-400 text-lg;
+        }
+        & >.count{
+            @apply text-main-400 font-semibold text-base tracking-[0.2px];
+        }
+    }
+}
+
+.devices{
+    @apply  rounded-2xl bg-white;
+    .list{
+        @apply flex flex-col gap-4;
+
+        .nav{
+            @apply rounded-xl flex items-center justify-between bg-main-300 p-2;
+            &>.text{
+                @apply w-full text-center font-medium text-title-2 text-white tracking-[0.2px] ;
+                &:first-child{
+                    @apply max-w-[60px]; 
+                }
+            }
+        }
+    }
+}
+
+

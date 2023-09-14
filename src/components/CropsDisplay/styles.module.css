@@ -1,0 +1,8 @@
+.crop-display{
+    @apply flex flex-col justify-center items-center;
+
+
+    .title{
+        @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200;
+    }
+}

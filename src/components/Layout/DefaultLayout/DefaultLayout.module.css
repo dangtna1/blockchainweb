@@ -1,0 +1,15 @@
+.Container{
+    @apply w-screen h-screen overflow-hidden;
+}
+
+.Main{
+    @apply w-full h-full flex bg-main-100 ;
+}
+.Content{
+    @apply w-full flex flex-col py-2 px-3 overflow-y-scroll;
+    .Inner{
+        @apply w-full h-full shadow-layout bg-white rounded-lg pt-6 pb-12 px-8 ;
+    }
+}
+
+

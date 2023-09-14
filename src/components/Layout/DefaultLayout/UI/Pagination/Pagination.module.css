@@ -1,0 +1,39 @@
+.list {
+    @apply w-full grid grid-cols-3 grid-rows-2 h-full gap-y-8 justify-center items-center; 
+
+}
+
+
+.pagination {
+    @apply flex rounded-2xl bg-main-100 px-5 py-2.5 gap-2.5;
+
+    li {
+        @apply text-main-400 font-semibold
+        bg-white rounded-full w-8 h-8 flex items-center justify-center text-lg ;
+
+        &:not(:last-child){
+            @apply border-r 
+        }
+        button {
+            @apply w-full h-full
+        }
+    }
+    li.active {
+        @apply bg-main-400 text-white
+    }
+}
+
+.next-page{
+    @apply text-xl text-main-300;
+
+    &:disabled{
+        @apply opacity-40;
+    }
+}
+.prev-page{
+    @apply text-xl text-main-300;
+
+    &:disabled{
+        @apply opacity-40;
+    }
+}

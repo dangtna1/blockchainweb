@@ -1,122 +1,88 @@
-import * as React from 'react';
-import './SideBar.css'
-// Styled Components
-import { Link } from "react-router-dom";
+import classes from './SideBar.module.css'
 
-import logo from '../../../../assets/sideBar/main-logo.svg';
-import dashboard from '../../../../assets/sideBar/dashboard.svg';
-import display from '../../../../assets/sideBar/display.svg';
-import form from '../../../../assets/sideBar/form.svg';
-import history from '../../../../assets/sideBar/history.svg';
-import profile from '../../../../assets/sideBar/profile.svg';
-import setting from '../../../../assets/sideBar/setting.svg';
-import controller from '../../../../assets/sideBar/controller.svg'
+//font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// Styled Components
+import { NavLink} from "react-router-dom";
+
 
 export default function SideBar() {
+    const items = [
+        {
+            path:"/",
+            Name: "Dashboard",
+            icon: <FontAwesomeIcon icon="fa-solid fa-chart-line" className='min-w-[24px]'/>
+        },
+        {
+            path:"/controller",
+            Name: "Controller",
+            icon: <FontAwesomeIcon icon="fa-solid fa-wifi" className='min-w-[24px]'/>
+        },
+        {
+            path:"/form",
+            Name: "Form",
+            icon: <FontAwesomeIcon icon="fa-solid fa-file-lines" className='min-w-[24px]'/>
+        },
+        {
+            path:"/crops-display",
+            Name: "Display",
+            icon: <FontAwesomeIcon icon="fa-solid fa-display" className='min-w-[24px]'/>
+        },
+        {
+            path:"/",
+            Name: "History",
+            icon: <FontAwesomeIcon icon="fa-solid fa-clock" className='min-w-[24px]'/>
+        },
+    ]
 
     return (
-        <div>
-            <div className="sideBar-main">
-                <div className="sideBar-inner">
-
-                    <div className="sideBar-logo">
-                        <div className="logo">
-                            <img src={logo} alt="logo" />
-                        </div>
-
-                        <div className="text">
-                            BlockChain
-                        </div>
-                    </div>
-
-                    <div className="line"></div>
-
-                    <div className="sideBar-menu">
+        <>
+            <div className={classes.main}>
+                <div className={classes.inner}>
+                    <div className={classes.menu}>
                         {/* title */}
-                        <div className="text">
-                            MENU
+                        <div className={classes.text}>
+                            MENU 
                         </div>
-
                         {/* List */}
-                        <div className="menu-list">
-                            <Link to="/">
-                                <div className="item">
-                                    <div className="icon">
-                                        <img src={dashboard} alt="dashboard" />
-                                    </div>
-                                    <div className="text">
-                                        Dashboard
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link to="/controller">
-                                <div className="item">
-                                    <div className="icon">
-                                        <img src={controller} alt="controller" />
-                                    </div>
-                                    <div className="text">
-                                        Controller
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link to="/form">
-                                <div className="item" >
-                                    <div className="icon">
-                                        <img src={form} alt="form" />
-                                    </div>
-                                    <div className="text">
-                                        Form
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link to="/crops-display">
-                                <div className="item" >
-                                    <div className="icon">
-                                        <img src={display} alt="display" />
-                                    </div>
-                                    <div className="text">
-                                        Display
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link>
-                                <div className="item">
-                                    <div className="icon">
-                                        <img src={history} alt="history" />
-                                    </div>
-                                    <div className="text">
-                                        History
-                                    </div>
-                                </div>
-                            </Link>
+                        <div className={classes['menu-list']}>
+                            {
+                                items.map((item,index) => (
+                                    <NavLink to={item.path} key={index} className={(navData) => (navData.isActive ? `${classes['item']} ${classes['active']}`: `${classes['item']}`)}>
+                                        <div className={classes.icon}>
+                                            {item.icon}
+                                        </div>
+                                        <div className={classes.text}>
+                                            {item.Name}
+                                        </div>
+                                    </NavLink>
+                                ))
+                            }
                         </div>
                     </div>
 
-                    <div className="sideBar-user">
+                    {/* <div className="line"></div>
 
-                    </div>
-
-                    <div className="line"></div>
-
-                    <div className="sideBar-setting">
+                    <div className={classes.setting}>
                         <div className="icon">
-                            <img src={setting} alt="setting" />
+                            <FontAwesomeIcon icon="fa-solid fa-gear" className='min-w-[24px]' />
                         </div>
-                        <div className="text">
+                        <div className={classes.text}>
                             Setting
                         </div>
                     </div>
 
-                    <div className="sideBar-profile">
+                    <div className={classes.profile}>
                         <div className="icon">
-                            <img src={profile} alt="profile" />
+                            <FontAwesomeIcon icon="fa-solid fa-user"  className='min-w-[24px]'/>
                         </div>
-                        <div className="text">
+                        <div className={classes.text}>
                             Account
                         </div>
-                    </div>
+                    </div> */}
+
                 </div>
             </div>
-        </div>
+        </>
     )
 }

@@ -1,0 +1,53 @@
+.Form {
+    @apply w-full h-full;
+    .Inner {
+        @apply bg-white flex flex-col gap-4 
+    }
+}
+.MainTitle{
+    @apply font-lato font-bold text-2xl text-primary-200 uppercase;
+}
+
+.Window {
+    @apply w-full rounded-lg flex justify-center overflow-hidden;
+}
+
+.Pic{
+    @apply w-full;
+
+    img{
+        @apply object-cover object-center;
+    }
+}
+.Form{
+    @apply w-full ;
+
+    .MainForm{
+        @apply bg-white px-6 py-4;
+    }
+
+    .input-field{
+        @apply flex flex-col gap-2;
+
+        .item{
+            @apply flex flex-col gap-1.5;
+
+            .label {
+                @apply font-bold text-main-300 ;
+            }
+            .input { 
+                @apply
+                 border rounded-lg w-full 
+                 py-3 px-4
+                 text-gray-700 leading-tight 
+                 focus:outline-none
+            }
+        }
+
+    }
+    .Submit{
+        @apply mt-6
+         bg-main-300 hover:bg-green-700 text-white font-bold py-2.5 px-9 rounded-lg;
+    
+    }
+}

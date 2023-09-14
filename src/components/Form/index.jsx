@@ -1,9 +1,9 @@
 import * as React from 'react';
-import './Form.css'
+import classes from  './Form.module.css'
 import { CropInfoContext } from '../../context/CropInfoContext.jsx';
 import { TransactionContext } from '../../context/TransactionContext.jsx';
 import Loader from '../Loader/index.jsx';
-
+import Pic from '../../assets/Form/Pic.png'
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
         placeholder={placeholder}
@@ -11,13 +11,13 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
         step="0.0001"
         value={value}
         onChange={(e) => handleChange(e, name)}
-        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
+        className={classes.input}
     />
 );
 
 const Label = ({ children }) => (
     <label
-        className="block text-gray-700 text-sm font-bold mb-2"
+        className={classes.label}
     >
         {children}
     </label>
@@ -57,49 +57,66 @@ export default function Form() {
     }
 
     return (
-        <div className="controller-container">
-            <div className="controller-inner">
-                <h1 className="font-bold text-title-4 text-primary-200 flex justify-center mb-4">Publish a crop</h1>
-                <div className="min-h-screen flex justify-center">
-                    <form
-                        className="bg-white shadow-md p-6 w-96 rounded-xl"
-                        onSubmit={handleSubmit}
-                    >
-                        <div className="mb-4">
-                            <Label>Name</Label>
-                            <Input placeholder="Crop Type" name="cropType" type="text" handleChange={handleChange} />
+        <div className={classes.Form}>
+            <div className={classes.Inner}>
+                <h1 className={classes.MainTitle}>Publish a crop</h1>
+                <div className={classes.Window}>
+                    <div className={classes.Pic}>
+                        <img src={Pic}/>
+                    </div>
+                    <div className={classes.Form}>
+                        <form
+                            className={classes.MainForm}
+                            onSubmit={handleSubmit}
+                        >
+                            <div className={classes['input-field']}>
+                                <div className={classes.item}>
+                                    <Label>Name</Label>
+                                    <Input placeholder="Crop Type" name="cropType" type="text" handleChange={handleChange} />
+                                </div>
 
-                            <Label>Planting Date</Label>
-                            <Input placeholder="Planting Date" name="plantingDate" type="date" handleChange={handleChange} />
+                                <div className={classes.item}>
+                                    <Label>Planting Date</Label>
+                                    <Input placeholder="Planting Date" name="plantingDate" type="date" handleChange={handleChange} />
+                                </div>
 
-                            <Label>Harvest Date</Label>
-                            <Input placeholder="Harvest Date" name="harvestDate" type="date" handleChange={handleChange} />
+                                <div className={classes.item}>
+                                    <Label>Harvest Date</Label>
+                                    <Input placeholder="Harvest Date" name="harvestDate" type="date" handleChange={handleChange} />
+                                </div>
 
-                            <Label>Fertilizes</Label>
-                            <Input placeholder="fertilizer1, fertilizer2, fertilizer3, ..." name="fertilizers" type="text" handleChange={handleChange} />
+                                <div className={classes.item}>
+                                    <Label>Fertilizes</Label>
+                                    <Input placeholder="fertilizer1, fertilizer2, fertilizer3, ..." name="fertilizers" type="text" handleChange={handleChange} />
+                                </div>
 
-                            <Label>Pesticides</Label>
-                            <Input placeholder="pesticide1, pesticide2, pesticide3, ..." name="pesticides" type="textarea" handleChange={handleChange} />
+                                <div className={classes.item}>
+                                    <Label>Pesticides</Label>
+                                    <Input placeholder="pesticide1, pesticide2, pesticide3, ..." name="pesticides" type="textarea" handleChange={handleChange} />
+                                </div>
+                                <div className={classes.item}>
+                                    <Label>Price</Label>
+                                    <Input placeholder="Price (ETH)" name="price" type="number" handleChange={handleChange} />
+                                </div>
+                            </div>
 
-                            <Label>Price</Label>
-                            <Input placeholder="Price (ETH)" name="price" type="number" handleChange={handleChange} />
-                        </div>
+                            <div className="flex items-center justify-end">
+                                {
+                                    isLoading ? <Loader></Loader> : (
 
-                        <div className="flex items-center justify-end">
-                            {
-                                isLoading ? <Loader></Loader> : (
-
-                                    <button
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
-                                        type="submit"
-                                    >
-                                        Publish
-                                    </button>
-                                )
-                            }
-                        </div>
-                    </form>
+                                        <button
+                                            className={classes.Submit}
+                                            type="submit"
+                                        >
+                                            Publish
+                                        </button>
+                                    )
+                                }
+                            </div>
+                        </form>
+                    </div>
                 </div>
+
             </div>
         </div>
 

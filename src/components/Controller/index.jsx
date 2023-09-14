@@ -1,34 +1,33 @@
-import * as React from 'react';
-import './Controller.css'
+import classes from  './Controller.module.css'
 import Device from './Device';
 
 export default function Controller(){
 
     return (
         <>
-            <div className="controller-container">
-                <div className="title">
+            <div className={classes.controller}>
+                <div className={classes.title}>
                     System Controller
                 </div>  
-                <div className="item-count">
-                        <div className="text">
-                            Đang hiển thị:
+                <div className={classes['item-count']}>
+                        <div className={classes.text}>
+                            Đang hiển thị :
                         </div>
                         {/* Đếm số lượng thiết bị */}
-                        <div className="count">
+                        <div className={classes.count}>
                             8 thiết bị khả dụng
                         </div>
                 </div>
-                <div className="devices-controller">
-                    <ul className="devices-list">
-                        <div className="devices-nav">
-                            <div className="text max-w-[60px] ">
+                <div className={classes.devices}>
+                    <ul className={classes.list}>
+                        <div className={classes.nav}>
+                            <div className={classes.text}>
                                 ID
                             </div>
-                            <div className="text  border-x-2 border-greyscale-400">
+                            <div className={classes.text}>
                                 Product name
                             </div>
-                            <div className="text">
+                            <div className={classes.text}>
                                 Status
                             </div>
                         </div>
