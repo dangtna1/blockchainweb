@@ -2,10 +2,10 @@
     @apply z-20 w-full shadow-header bg-white p-3 sticky;
 
     .inner{
-        @apply w-full flex ; 
+        @apply w-full flex justify-between; 
 
         .title{
-            @apply font-bold text-primary-300 tracking-[0.2px] text-title-5;
+            @apply uppercase font-bold text-primary-300 tracking-[0.2px] text-title-5;
         }
 
     }

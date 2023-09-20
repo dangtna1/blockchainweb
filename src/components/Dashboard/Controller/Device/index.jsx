@@ -1,21 +1,21 @@
+import DeviceImage from '../../../../assets/Dashboard/Device/device.png'
 import { useEffect } from "react";
 import axios from 'axios';
-import Switch from "react-switch";
 import { useSelector, useDispatch } from 'react-redux'
+import { updateSignal } from '../../../../store/controllerSlice';
+import MySwitch from '../../../Layout/DefaultLayout/UI/Switch'
 
-import { updateSignal } from '../../../store/controllerSlice.jsx';
-import './Device.css'
 
-export default function Device({ name, index }) {
+const Device = ({classes, device}) => {
     const controllerSignals = useSelector((state) => state.controller.controllerSignals)
     const dispatch = useDispatch()
-
+    
     // Subscribe and get initial data from adafruit 
     useEffect(() => {
         const fetchData = async () => {
             const aioUsername = 'tamquattnb123';
             const apiKey = "aio_IibV61FsQe" + "RVTkhPB98EgUnmwu0J";
-            const feedName = `relays.relay${index}`;
+            const feedName = `relays.relay${device.index}`;
             const url = `https://io.adafruit.com/api/v2/${aioUsername}/feeds/${feedName}/data/last`;
 
             try {
@@ -24,7 +24,7 @@ export default function Device({ name, index }) {
                         'X-AIO-Key': apiKey,
                     },
                 });
-                dispatch(updateSignal([index, parseInt(response.data.value)]))
+                dispatch(updateSignal([device.index, parseInt(response.data.value)]))
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -33,12 +33,12 @@ export default function Device({ name, index }) {
     }, []);
 
     const handleChange = async nextChecked => {
-        dispatch(updateSignal([index, nextChecked]))
+        dispatch(updateSignal([device.index, nextChecked]))
         // Publish to adafruit 
         try {
             const aioKey = "aio_IibV61FsQe" + "RVTkhPB98EgUnmwu0J";
             const aioUsername = 'tamquattnb123';
-            const feedName = `relays.relay${index}`;
+            const feedName = `relays.relay${device.index}`;
 
             await axios.post(
                 `https://io.adafruit.com/api/v2/${aioUsername}/feeds/${feedName}/data`,
@@ -56,23 +56,33 @@ export default function Device({ name, index }) {
         }
     };
 
+    const deviceStatus = controllerSignals[device.index - 1] == 1
+
     return (
-        <li className="device">
-            <div className="text max-w-[60px]">
-                {index}
+        <>
+            <div className={classes.device}>
+                <div className={classes.name}>
+                    {device.name}
+                </div>
+
+                <div className={classes.imageWrapper}>
+                    <img className={classes.image} src={DeviceImage} />
+                </div>
+
+                <div className='w-full flex justify-between items-center'>
+                    <div className={deviceStatus ? classes.status : `${classes.status} ${classes.inactive}`}>
+                        {deviceStatus ? 'active' : 'inactive'}
+                    </div>
+                    <MySwitch 
+                        onChange={handleChange}
+                        checked={deviceStatus}
+                    />
+                </div>
             </div>
-            <div className="text border-x-2 border-greyscale-400">
-                {name}
-            </div>
-            <div className="text">
-                <Switch
-                    onChange={handleChange}
-                    checked={controllerSignals[index - 1] == 1}
-                    checkedIcon={false}
-                    uncheckedIcon={false}
-                    onColor="#3C6255"
-                />
-            </div>
-        </li>
+        </>
     )
+
 }
+
+
+export default Device 

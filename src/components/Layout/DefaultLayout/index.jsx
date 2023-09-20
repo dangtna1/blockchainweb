@@ -14,7 +14,7 @@ export default function DefaultLayout({ children }) {
                         <div className={classes.Inner}>
                             {children}
                         </div>
-                        <div className="min-h-[130px] w-full">
+                        <div className="max-h-[130px] w-full">
                             <Footer/>
                         </div>   
                     </div>

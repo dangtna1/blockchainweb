@@ -1,0 +1,24 @@
+.device {
+    @apply flex flex-col gap-4 rounded-xl p-4 my-9;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    .name{
+        @apply text-3xl font-bold text-main-400 text-center;
+    }
+
+    .imageWrapper{
+        @apply w-full h-full flex justify-center items-center;
+
+        .image{
+            @apply w-full h-full max-w-[180px];
+        }
+    }
+
+    .status{
+        @apply uppercase font-semibold text-xl text-status-active;
+
+        &.inactive{
+            @apply text-status-inactive;
+        }
+    }
+}

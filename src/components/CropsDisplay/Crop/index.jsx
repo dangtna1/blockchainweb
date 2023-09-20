@@ -52,7 +52,7 @@ const Crop = props => {
                     <span>{crop.price}</span>
                 </div>
 
-                <div className="flex justify-end"><button className="rounded-full bg-emerald-300 px-6 py-1" onClick={() => alert("This feature is being developed")}>Buy</button></div>
+                <div className="flex justify-end"><button className="rounded-full bg-main-300 text-white font-bold px-6 py-1" onClick={() => alert("This feature is being developed")}>Buy</button></div>
             </div>
         </>
     )

@@ -23,6 +23,10 @@ const COLORS = {
     200: "#9DC08B",
     300: "#609966",
     400: "#40513B",
+  },
+  status:{
+    active: '#79D70F',
+    inactive : '#FF6464'
   }
 }
 function genarateColorTDS() {

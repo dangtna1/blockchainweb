@@ -1,5 +1,6 @@
-.main {
-    @apply p-4 w-screen h-screen shadow-layout bg-white duration-300 sticky;
+.sideBar {
+    @apply sticky flex-col top-0 w-full h-screen p-4 shadow-layout bg-white duration-300;
+    align-self: flex-start;
     transition: all 0.3s ease;
     max-width: 230px;
     .inner {
@@ -7,7 +8,7 @@
         .menu {
             @apply w-full;
             &>.text {
-                @apply font-bold text-main-400 text-2xl;
+                @apply font-bold text-main-400 text-3xl;
             }
         }
     }

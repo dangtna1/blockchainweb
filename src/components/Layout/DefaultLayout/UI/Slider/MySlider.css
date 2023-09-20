@@ -1,0 +1,21 @@
+.next-btn{
+    @apply hover:opacity-50 
+    z-50 flex items-center justify-center w-10 h-10 absolute -right-4 top-1/2 transform -translate-y-1/2;
+    
+    .icon{
+        @apply text-[32px] text-main-300;
+    }
+}
+
+.prev-btn{
+    @apply hover:opacity-50 
+    z-50  flex items-center justify-center w-10 h-10 absolute -left-4 top-1/2 transform -translate-y-1/2;
+    
+    .icon{
+        @apply text-[32px] text-main-300;
+    }
+}
+
+.slick-slide div:first-child{
+    @apply flex items-center justify-center;
+}

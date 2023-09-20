@@ -1,5 +1,5 @@
 .list {
-    @apply w-full grid grid-cols-3 grid-rows-2 h-full gap-y-8 justify-center items-center; 
+    @apply w-fit grid grid-cols-3 grid-rows-2 h-full gap-y-8 justify-center items-center; 
 
 }
 

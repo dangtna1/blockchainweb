@@ -13,11 +13,7 @@ export default function SideBar() {
             Name: "Dashboard",
             icon: <FontAwesomeIcon icon="fa-solid fa-chart-line" className='min-w-[24px]'/>
         },
-        {
-            path:"/controller",
-            Name: "Controller",
-            icon: <FontAwesomeIcon icon="fa-solid fa-wifi" className='min-w-[24px]'/>
-        },
+
         {
             path:"/form",
             Name: "Form",
@@ -29,15 +25,20 @@ export default function SideBar() {
             icon: <FontAwesomeIcon icon="fa-solid fa-display" className='min-w-[24px]'/>
         },
         {
-            path:"/",
+            path:"/history",
             Name: "History",
             icon: <FontAwesomeIcon icon="fa-solid fa-clock" className='min-w-[24px]'/>
+        },
+        {
+            path:"/controller",
+            Name: "Controller",
+            icon: <FontAwesomeIcon icon="fa-solid fa-wifi" className='min-w-[24px]'/>
         },
     ]
 
     return (
         <>
-            <div className={classes.main}>
+            <div className={classes.sideBar}>
                 <div className={classes.inner}>
                     <div className={classes.menu}>
                         {/* title */}
@@ -48,7 +49,7 @@ export default function SideBar() {
                         <div className={classes['menu-list']}>
                             {
                                 items.map((item,index) => (
-                                    <NavLink to={item.path} key={index} className={(navData) => (navData.isActive ? `${classes['item']} ${classes['active']}`: `${classes['item']}`)}>
+                                    <NavLink  to={item.path} key={index} className={(navData) => (navData.isActive ? `${classes['item']} ${classes['active']}`: `${classes['item']}`)}>
                                         <div className={classes.icon}>
                                             {item.icon}
                                         </div>

@@ -15,13 +15,6 @@ const CropsDisplay = () => {
                 <h1 className={classes.title}>All crops are in your hand</h1>
                 <RenderItems items={cropsInfo}/>
             </div>
-            
-            {/* <h1 className="font-bold text-title-4 text-primary-200 flex justify-center mb-4">All crops are in your hand</h1>
-            <div className=" w-full h-full overflow-hidden  flex flex-wrap justify-center bg-white shadow-md p-6 rounded-xl">
-                {cropsInfo.map((crop, index) => (
-                    <Crop crop={crop} key={index}/>
-                ))}
-            </div> */}
         </>
     )
 }
