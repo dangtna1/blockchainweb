@@ -9,31 +9,31 @@ import { NavLink} from "react-router-dom";
 export default function SideBar() {
     const items = [
         {
-            path:"/",
+            path: "/",
             Name: "Dashboard",
             icon: <FontAwesomeIcon icon="fa-solid fa-chart-line" className='min-w-[24px]'/>
         },
 
         {
-            path:"/form",
+            path: "/form",
             Name: "Form",
             icon: <FontAwesomeIcon icon="fa-solid fa-file-lines" className='min-w-[24px]'/>
         },
         {
-            path:"/crops-display",
+            path: "/crops-display",
             Name: "Display",
             icon: <FontAwesomeIcon icon="fa-solid fa-display" className='min-w-[24px]'/>
         },
         {
-            path:"/history",
-            Name: "History",
-            icon: <FontAwesomeIcon icon="fa-solid fa-clock" className='min-w-[24px]'/>
-        },
-        {
-            path:"/controller",
-            Name: "Controller",
+            path: "/market",
+            Name: "Market",
             icon: <FontAwesomeIcon icon="fa-solid fa-wifi" className='min-w-[24px]'/>
         },
+        {
+            path: "/history",
+            Name: "History",
+            icon: <FontAwesomeIcon icon="fa-solid fa-clock" className='min-w-[24px]'/>
+        }
     ]
 
     return (
