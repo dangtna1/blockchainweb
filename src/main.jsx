@@ -5,17 +5,18 @@ import App from './App';
 import store from './store/store'
 import './main.css';
 import { CropInfoProvider } from "./context/CropInfoContext.jsx";
-import { TransactionsProvider } from "./context/TransactionContext.jsx";
+import { WalletAccountsProvider } from './context/WalletAccountsContext.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <CropInfoProvider>
-    <TransactionsProvider>
+  <WalletAccountsProvider>
+    <CropInfoProvider>
       <Provider store={store}>
         <App />
       </Provider>
-    </TransactionsProvider>
-  </CropInfoProvider>
+    </CropInfoProvider>
+  </WalletAccountsProvider>
+
 );
 

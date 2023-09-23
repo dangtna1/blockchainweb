@@ -5,7 +5,6 @@ import croptype from '../../../assets/cropsDisplay/croptype.svg'
 import date from '../../../assets/cropsDisplay/date.svg'
 import cropfer from '../../../assets/cropsDisplay/cropfer.svg'
 import croppes from '../../../assets/cropsDisplay/croppes.svg'
-import cropprice from '../../../assets/cropsDisplay/cropprice.svg'
 
 
 const Crop = props => {
@@ -44,12 +43,6 @@ const Crop = props => {
                     <img src={croppes} alt="crop pesticides" />
                     <p className="text-primary-200 mx-2">Pesticides: </p>
                     <span>{crop.pesticides.join(', ')}</span>
-                </div>
-
-                <div className="flex jutify-center items-center">
-                    <img src={cropprice} alt="cropprice" />
-                    <p className="text-primary-200 mx-2">Price (ETH): </p>
-                    <span>{crop.price}</span>
                 </div>
 
                 <div className="flex justify-end"><button className="rounded-full bg-main-300 text-white font-bold px-6 py-1" onClick={() => alert("This feature is being developed")}>Buy</button></div>

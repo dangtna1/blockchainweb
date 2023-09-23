@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext, createContext } from "react";
 import { ethers } from "ethers";
 
 import { cropInfoABI, cropInfoAddress } from "../utils/constants.jsx";
+import { WalletAccountsContext } from "./WalletAccountsContext.jsx";
 
-export const CropInfoContext = React.createContext();
+export const CropInfoContext = createContext();
 
 const { ethereum } = window;
 
@@ -11,12 +12,12 @@ const createEthereumContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     const cropInfoContract = new ethers.Contract(cropInfoAddress, cropInfoABI, signer);
-
     return cropInfoContract;
 };
 
 export const CropInfoProvider = ({ children }) => {
-    const [currentAccount, setCurrentAccount] = useState("");
+    const { currentAccount, setCurrentAccount } = useContext(WalletAccountsContext);
+
     const [cropsInfo, setCropsInfo] = useState([]);
     const [cropsCount, setCropsCount] = useState(localStorage.getItem("cropsCount"));
     const [formData, setformData] = useState({
@@ -25,32 +26,15 @@ export const CropInfoProvider = ({ children }) => {
         harvestDate: "",
         fertilizers: [],
         pesticides: [],
-        price: ""
     });
     const [isLoading, setIsLoading] = useState(false);
 
-    const connectWallet = async () => {
+    const checkIfWalletIsConnectedAndFetchData = async () => {
         try {
             if (!ethereum) return alert("Please install MetaMask.");
-
-            const accounts = await ethereum.request({ method: "eth_requestAccounts", });
-
-            setCurrentAccount(accounts[0]); 
-
-            window.location.reload();
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const checkIfWalletIsConnect = async () => {
-        try {
-            if (!ethereum) return alert("Please install MetaMask.");
-
             const accounts = await ethereum.request({ method: "eth_accounts" });
-
             if (accounts.length) {
-                setCurrentAccount(accounts[0]);
+                setCurrentAccount(accounts[0]); //In case we don't need to connect wallet again because of cache memory
                 getAllCropsInfo();
             } else {
                 console.log("No accounts found");
@@ -60,18 +44,16 @@ export const CropInfoProvider = ({ children }) => {
         }
     };
 
-    const checkIfCropsExist = async () => {
+    const getTheNumberOfCropsAndSaveItInLocalStorage = async () => {
         try {
             if (ethereum) {
                 const cropInfoContract = createEthereumContract();
-                const currentCropsCount = await cropInfoContract.getCropCount();
+                const currentCropsCount = await cropInfoContract.getNumberOfCrop();
 
                 window.localStorage.setItem("cropsCount", currentCropsCount);
             }
         } catch (error) {
             console.log(error);
-            
-            // throw new Error("No ethereum object");
         }
     };
 
@@ -88,8 +70,6 @@ export const CropInfoProvider = ({ children }) => {
                     harvestDate: new Date(crop.harvestDate.toNumber() * 1000).toLocaleString(),
                     fertilizers: crop.fertilizers,
                     pesticides: crop.pesticides,
-                    price: parseInt(crop.price._hex) / (10 ** 18), //1 Eth = 1e18 wei
-                    owner: crop.owner
                 }));
 
                 console.log(structuredCrops);
@@ -106,59 +86,37 @@ export const CropInfoProvider = ({ children }) => {
     const addCropInfoToBlockChain = async () => {
         try {
             if (ethereum) {
-                console.log("hello world");
-                const { cropType, plantingDate, harvestDate, fertilizers, pesticides, price } = formData;
+                const cropInfoContract = createEthereumContract();
 
-                console.log(fertilizers);
+                const { cropType, plantingDate, harvestDate, fertilizers, pesticides } = formData;
 
                 //convert date to Unix timestamp
                 const [yearPlantingDate, monthPlantingDate, dayPlantingDate] = plantingDate.split('-');
                 const [yearHarvestDate, monthHarvestDate, dayHarvestDate] = harvestDate.split('-');
 
-                console.log(monthHarvestDate)
-
                 const unixPlantingDate = Date.parse(`${yearPlantingDate}-${monthPlantingDate}-${dayPlantingDate}T00:00:00Z`) / 1000;
                 const unixHarvestDate = Date.parse(`${yearHarvestDate}-${monthHarvestDate}-${dayHarvestDate}T00:00:00Z`) / 1000;
-
-                const cropInfoContract = createEthereumContract();
-                // const parsedAmount = ethers.utils.parseEther(amount);
-
-                // await ethereum.request({
-                //     method: "eth_sendTransaction",
-                //     params: [{
-                //         from: currentAccount,
-                //         to: addressTo,
-                //         gas: "0x5208",
-                //         value: parsedAmount._hex,
-                //     }],
-                // });
-
-                const parsedPrice = ethers.utils.parseEther(price);
 
                 const arrayFertilizers = fertilizers.split(', ');
                 const arrayPesticides = pesticides.split(', ');
 
-
+                console.log("start adding...");
                 const cropHash = await cropInfoContract.addCropInfo(
                     cropType,
                     unixPlantingDate,
                     unixHarvestDate,
                     arrayFertilizers,
-                    arrayPesticides,
-                    parsedPrice,
-                    currentAccount
+                    arrayPesticides
                 );
 
                 setIsLoading(true);
-                // console.log(`Loading - ${transactionHash.hash}`);
                 await cropHash.wait();
-                // console.log(`Success - ${transactionHash.hash}`);
                 setIsLoading(false);
 
-                const cropsCount = await cropInfoContract.getCropCount();
+                window.alert("Add the crop information successfully");
 
+                const cropsCount = await cropInfoContract.getNumberOfCrop();
                 setCropsCount(cropsCount.toNumber());
-                // window.location.reload();
             } else {
                 console.log("No ethereum object");
             }
@@ -173,9 +131,13 @@ export const CropInfoProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        checkIfWalletIsConnect(); //if yes, get all Crops information
-        checkIfCropsExist(); //to know the number of crops
+        checkIfWalletIsConnectedAndFetchData();
+        getTheNumberOfCropsAndSaveItInLocalStorage();
     }, [cropsCount]);
+
+    useEffect(() => {
+        if (currentAccount) getAllCropsInfo();
+    }, [currentAccount]);
 
     useEffect(() => {
         window.ethereum.on("accountsChanged", (accounts) => {
@@ -192,13 +154,11 @@ export const CropInfoProvider = ({ children }) => {
     return (
         <CropInfoContext.Provider
             value={{
-                currentAccount,
                 formData,
                 cropsInfo,
                 isLoading,
 
                 handleChange,
-                connectWallet,
                 addCropInfoToBlockChain,
             }}>
             {children}

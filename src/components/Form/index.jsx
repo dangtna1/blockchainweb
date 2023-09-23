@@ -1,8 +1,8 @@
-import * as React from 'react';
-import classes from  './Form.module.css'
-import { CropInfoContext } from '../../context/CropInfoContext.jsx';
-import { TransactionContext } from '../../context/TransactionContext.jsx';
-import Loader from '../Loader/index.jsx';
+import { useContext } from 'react';
+import classes from './Form.module.css'
+import { CropInfoContext } from '../../context/CropInfoContext';
+import { WalletAccountsContext } from '../../context/WalletAccountsContext';
+import Loader from '../Loader/index';
 import Pic from '../../assets/Form/Pic.png'
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
@@ -24,37 +24,24 @@ const Label = ({ children }) => (
 )
 
 export default function Form() {
+    const { currentAccount } = useContext(WalletAccountsContext)
     const {
-        currentAccount,
         formData,
         handleChange,
         addCropInfoToBlockChain,
         isLoading
-    } = React.useContext(CropInfoContext);
-
-    const { transactions, sendTransaction } = React.useContext(TransactionContext)
+    } = useContext(CropInfoContext);
 
     const handleSubmit = (e) => {
         console.log("submit");
-
         const { cropType, plantingDate, harvestDate, fertilizers, pesticides } = formData;
-
-
         e.preventDefault();
-
         if (!cropType || !plantingDate || !harvestDate || !fertilizers || !pesticides) {
             alert('Please fill all fields');
             return;
         }
-
         addCropInfoToBlockChain();
     };
-
-    const check = (addressTo, price) => {
-        console.log(addressTo, price);
-        console.log(currentAccount);
-        sendTransaction(currentAccount, addressTo, price);
-    }
 
     return (
         <div className={classes.Form}>
@@ -62,7 +49,7 @@ export default function Form() {
                 <h1 className={classes.MainTitle}>Publish a crop</h1>
                 <div className={classes.Window}>
                     <div className={classes.Pic}>
-                        <img src={Pic}/>
+                        <img src={Pic} />
                     </div>
                     <div className={classes.Form}>
                         <form
@@ -94,16 +81,19 @@ export default function Form() {
                                     <Label>Pesticides</Label>
                                     <Input placeholder="pesticide1, pesticide2, pesticide3, ..." name="pesticides" type="textarea" handleChange={handleChange} />
                                 </div>
+
                                 <div className={classes.item}>
-                                    <Label>Price</Label>
-                                    <Input placeholder="Price (ETH)" name="price" type="number" handleChange={handleChange} />
+                                    {
+                                        currentAccount ?
+                                            <Label>You are interating with the smart contract using wallet: {currentAccount}</Label> :
+                                            <Label>Please connect your wallet first...</Label>
+                                    }
                                 </div>
                             </div>
 
                             <div className="flex items-center justify-end">
                                 {
                                     isLoading ? <Loader></Loader> : (
-
                                         <button
                                             className={classes.Submit}
                                             type="submit"
@@ -116,7 +106,6 @@ export default function Form() {
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
 

@@ -1,12 +1,12 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import classes from './Header.module.css';
-import { CropInfoContext } from '../../../../context/CropInfoContext.jsx';
+import { WalletAccountsContext } from '../../../../context/WalletAccountsContext';
 
 export default function Header() {
     const {
         currentAccount,
         connectWallet,
-    } = React.useContext(CropInfoContext);
+    } = useContext(WalletAccountsContext);
 
     return (
         <div className={classes.header}>
