@@ -8,7 +8,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
         placeholder={placeholder}
         type={type}
-        step="0.0001"
+        step="1"
         value={value}
         onChange={(e) => handleChange(e, name)}
         className={classes.input}
@@ -29,19 +29,24 @@ export default function Form() {
         formData,
         handleChange,
         addCropInfoToBlockChain,
+        initializeACrop,
         isLoading
     } = useContext(CropInfoContext);
 
     const handleSubmit = (e) => {
         console.log("submit");
-        const { cropType, plantingDate, harvestDate, fertilizers, pesticides } = formData;
+        const { cropType, plantingDate, harvestDate } = formData;
         e.preventDefault();
-        if (!cropType || !plantingDate || !harvestDate || !fertilizers || !pesticides) {
-            alert('Please fill all fields');
+        if (!cropType || !plantingDate || !harvestDate) {
+            alert('Please fill all compulsary fields');
             return;
         }
         addCropInfoToBlockChain();
     };
+
+    const createACrop = () => {
+        initializeACrop()
+    }
 
     return (
         <div className={classes.Form}>
@@ -58,18 +63,18 @@ export default function Form() {
                         >
                             <div className={classes['input-field']}>
                                 <div className={classes.item}>
-                                    <Label>Name</Label>
+                                    <Label>Name*</Label>
                                     <Input placeholder="Crop Type" name="cropType" type="text" handleChange={handleChange} />
                                 </div>
 
                                 <div className={classes.item}>
-                                    <Label>Planting Date</Label>
+                                    <Label>Planting Date*</Label>
                                     <Input placeholder="Planting Date" name="plantingDate" type="date" handleChange={handleChange} />
                                 </div>
 
                                 <div className={classes.item}>
-                                    <Label>Harvest Date</Label>
-                                    <Input placeholder="Harvest Date" name="harvestDate" type="date" handleChange={handleChange} />
+                                    <Label>No. months to harvest*</Label>
+                                    <Input placeholder="No. months to harvest (intend)" name="harvestDate" type="number" handleChange={handleChange} />
                                 </div>
 
                                 <div className={classes.item}>
@@ -79,7 +84,17 @@ export default function Form() {
 
                                 <div className={classes.item}>
                                     <Label>Pesticides</Label>
-                                    <Input placeholder="pesticide1, pesticide2, pesticide3, ..." name="pesticides" type="textarea" handleChange={handleChange} />
+                                    <Input placeholder="pesticide1, pesticide2, pesticide3, ..." name="pesticides" type="text" handleChange={handleChange} />
+                                </div>
+
+                                <div className={classes.item}>
+                                    <Label>Diseases</Label>
+                                    <Input placeholder="disease1, disease2, disease3, ..." name="diseases" type="text" handleChange={handleChange} />
+                                </div>
+
+                                <div className={classes.item}>
+                                    <Label>Additional information</Label>
+                                    <Input placeholder="Additional information" name="additionalInfo" type="text" handleChange={handleChange} />
                                 </div>
 
                                 <div className={classes.item}>
@@ -88,6 +103,10 @@ export default function Form() {
                                             <Label>You are interating with the smart contract using wallet: {currentAccount}</Label> :
                                             <Label>Please connect your wallet first...</Label>
                                     }
+                                </div>
+
+                                <div className={classes.item}>
+                                    <Label>You can also <span className='text-orange-500 underline hover: cursor-pointer' onClick={createACrop}>initialize</span> a crop</Label>
                                 </div>
                             </div>
 

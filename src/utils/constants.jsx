@@ -1,4 +1,4 @@
 import cropInfo from "./CropInfo.json"
 
-export const cropInfoAddress = "0x667262162Abb4Dc9D6f24ec769b21190b902cd5B";
+export const cropInfoAddress = "0x7D8bC4c0a853560842C302834e6e807386197552";
 export const cropInfoABI = cropInfo.abi;

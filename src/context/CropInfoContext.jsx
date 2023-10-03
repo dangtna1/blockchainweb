@@ -23,9 +23,11 @@ export const CropInfoProvider = ({ children }) => {
     const [formData, setformData] = useState({
         cropType: "",
         plantingDate: "",
-        harvestDate: "",
-        fertilizers: [],
-        pesticides: [],
+        harvestDate: 0,
+        fertilizers: "",
+        pesticides: "",
+        diseases: "",
+        additionalInfo: ""
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -67,9 +69,11 @@ export const CropInfoProvider = ({ children }) => {
                 const structuredCrops = availableCrops.map((crop) => ({
                     cropType: crop.cropType,
                     plantingDate: new Date(crop.plantingDate.toNumber() * 1000).toLocaleString(),
-                    harvestDate: new Date(crop.harvestDate.toNumber() * 1000).toLocaleString(),
+                    harvestDate: crop.monthsToHavest,
                     fertilizers: crop.fertilizers,
                     pesticides: crop.pesticides,
+                    diseases: crop.diseases,
+                    additionalInfo: crop.additionalInfo
                 }));
 
                 console.log(structuredCrops);
@@ -88,25 +92,28 @@ export const CropInfoProvider = ({ children }) => {
             if (ethereum) {
                 const cropInfoContract = createEthereumContract();
 
-                const { cropType, plantingDate, harvestDate, fertilizers, pesticides } = formData;
+                const { cropType, plantingDate, harvestDate, fertilizers, pesticides, diseases, additionalInfo } = formData;
 
                 //convert date to Unix timestamp
                 const [yearPlantingDate, monthPlantingDate, dayPlantingDate] = plantingDate.split('-');
-                const [yearHarvestDate, monthHarvestDate, dayHarvestDate] = harvestDate.split('-');
+                // const [yearHarvestDate, monthHarvestDate, dayHarvestDate] = harvestDate.split('-');
 
                 const unixPlantingDate = Date.parse(`${yearPlantingDate}-${monthPlantingDate}-${dayPlantingDate}T00:00:00Z`) / 1000;
-                const unixHarvestDate = Date.parse(`${yearHarvestDate}-${monthHarvestDate}-${dayHarvestDate}T00:00:00Z`) / 1000;
+                // const unixHarvestDate = Date.parse(`${yearHarvestDate}-${monthHarvestDate}-${dayHarvestDate}T00:00:00Z`) / 1000;
 
-                const arrayFertilizers = fertilizers.split(', ');
-                const arrayPesticides = pesticides.split(', ');
+                const arrayFertilizers = fertilizers !== "" ? fertilizers.split(', ') : [];
+                const arrayPesticides = pesticides !== "" ? pesticides.split(', ') : [];
+                const arrayDiseases = diseases !== "" ? diseases.split(', ') : [];
 
                 console.log("start adding...");
                 const cropHash = await cropInfoContract.addCropInfo(
                     cropType,
                     unixPlantingDate,
-                    unixHarvestDate,
+                    harvestDate,
                     arrayFertilizers,
-                    arrayPesticides
+                    arrayPesticides,
+                    arrayDiseases,
+                    additionalInfo
                 );
 
                 setIsLoading(true);
@@ -125,6 +132,44 @@ export const CropInfoProvider = ({ children }) => {
             alert("No ethereum object");
         }
     };
+
+    const initializeACrop = async () => {
+        try {
+            if (ethereum) {
+                const cropInfoContract = createEthereumContract();
+
+                const plantingDate = new Date();
+                const year = String(plantingDate.getFullYear());
+                const month = String(plantingDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                const day = String(plantingDate.getDate()).padStart(2, '0');
+                const unixPlantingDate = Date.parse(`${year}-${month}-${day}T00:00:00Z`) / 1000;
+
+                const cropHash = await cropInfoContract.addCropInfo(
+                    "flower",
+                    unixPlantingDate,
+                    0,
+                    [],
+                    [],
+                    [],
+                    ""
+                );
+
+                setIsLoading(true);
+                await cropHash.wait();
+                setIsLoading(false);
+
+                window.alert("Add the crop information successfully");
+                
+                const cropsCount = await cropInfoContract.getNumberOfCrop();
+                setCropsCount(cropsCount.toNumber());
+            } else {
+                console.log("No ethereum object");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("No ethereum object");
+        }
+    }
 
     const handleChange = (e, name) => {
         setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
@@ -160,6 +205,7 @@ export const CropInfoProvider = ({ children }) => {
 
                 handleChange,
                 addCropInfoToBlockChain,
+                initializeACrop,
             }}>
             {children}
         </CropInfoContext.Provider>
