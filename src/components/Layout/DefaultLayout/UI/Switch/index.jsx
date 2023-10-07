@@ -1,22 +1,23 @@
 import Switch from 'react-switch'
 import './MySwitch.css'
 
-export default function MySwitch (props) {
+export default function MySwitch(props) {
     return (
         <Switch
-        onChange={props.onChange}
-        checked={props.checked}
+            onChange={props.onChange}
+            checked={props.checked}
+            disabled={!props.isEnabled}
 
-        checkedIcon={false}
-        uncheckedIcon={false}
+            checkedIcon={false}
+            uncheckedIcon={false}
 
-        onColor="#5D9C59"
-        offColor='#DF2E38'
+            onColor="#5D9C59"
+            offColor='#DF2E38'
 
-        className='mySwitch'
+            className='mySwitch'
 
-        height={25}
-        handleDiameter={18}
+            height={25}
+            handleDiameter={18}
         />
     )
 }

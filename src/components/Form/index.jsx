@@ -4,6 +4,7 @@ import { CropInfoContext } from '../../context/CropInfoContext';
 import { WalletAccountsContext } from '../../context/WalletAccountsContext';
 import Loader from '../Loader/index';
 import Pic from '../../assets/Form/Pic.png'
+
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
         placeholder={placeholder}

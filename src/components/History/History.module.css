@@ -1,0 +1,33 @@
+.MainTitle {
+    @apply font-lato font-bold text-2xl text-primary-200 uppercase;
+}
+
+.timestamp {
+    @apply font-bold text-main-300;
+}
+
+.custom-scrollbar {
+    @apply overflow-x-auto h-screen;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    /* Width of the scrollbar. This make the scroll bar look invisible */
+    @apply w-12;
+}
+
+.history-container {
+    @apply w-fit grid grid-cols-2 mt-5
+}
+
+.outer-image-container {
+    @apply w-fit grid grid-cols-2 even:grayscale;
+
+    .image-container {
+        @apply border rounded-lg hover:grayscale-0;
+
+        .image-style {
+            @apply w-full h-full object-cover rounded-lg  ;
+        }
+    }
+}
+

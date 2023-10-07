@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext, createContext } from "react";
 import { ethers } from "ethers";
 
-import { cropInfoABI, cropInfoAddress } from "../utils/constants.jsx";
-import { WalletAccountsContext } from "./WalletAccountsContext.jsx";
+import { cropInfoABI, cropInfoAddress } from "../utils/constants";
+import { WalletAccountsContext } from "./WalletAccountsContext";
 
 export const CropInfoContext = createContext();
 
@@ -33,7 +33,7 @@ export const CropInfoProvider = ({ children }) => {
 
     const checkIfWalletIsConnectedAndFetchData = async () => {
         try {
-            if (!ethereum) return alert("Please install MetaMask.");
+            if (!ethereum) return window.alert("Please install MetaMask.");
             const accounts = await ethereum.request({ method: "eth_accounts" });
             if (accounts.length) {
                 setCurrentAccount(accounts[0]); //In case we don't need to connect wallet again because of cache memory
@@ -53,6 +53,8 @@ export const CropInfoProvider = ({ children }) => {
                 const currentCropsCount = await cropInfoContract.getNumberOfCrop();
 
                 window.localStorage.setItem("cropsCount", currentCropsCount);
+            } else {
+                console.log("No ethereum object");
             }
         } catch (error) {
             console.log(error);
@@ -75,8 +77,6 @@ export const CropInfoProvider = ({ children }) => {
                     diseases: crop.diseases,
                     additionalInfo: crop.additionalInfo
                 }));
-
-                console.log(structuredCrops);
 
                 setCropsInfo(structuredCrops);
             } else {
@@ -129,7 +129,7 @@ export const CropInfoProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
-            alert("No ethereum object");
+            window.alert("No ethereum object");
         }
     };
 
@@ -155,11 +155,11 @@ export const CropInfoProvider = ({ children }) => {
                 );
 
                 setIsLoading(true);
-                await cropHash.wait();
+                await cropHash.wait(); //important
                 setIsLoading(false);
 
                 window.alert("Add the crop information successfully");
-                
+
                 const cropsCount = await cropInfoContract.getNumberOfCrop();
                 setCropsCount(cropsCount.toNumber());
             } else {
@@ -167,7 +167,7 @@ export const CropInfoProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
-            alert("No ethereum object");
+            window.alert("No ethereum object");
         }
     }
 

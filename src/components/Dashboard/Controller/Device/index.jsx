@@ -1,15 +1,27 @@
-import DeviceImage from '../../../../assets/Dashboard/Device/device.png'
-import { useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux'
+
+import { WalletAccountsContext } from "../../../../context/WalletAccountsContext";
+import { ControllerContext } from "../../../../context/ControllerContext";
+import { pushControllerInfo, resetAll } from "../../../../store/careHistorySlice";
 import { updateSignal } from '../../../../store/controllerSlice';
+import DeviceImage from '../../../../assets/Dashboard/Device/device.png'
 import MySwitch from '../../../Layout/DefaultLayout/UI/Switch'
 
 
-const Device = ({classes, device}) => {
-    const controllerSignals = useSelector((state) => state.controller.controllerSignals)
+const Device = ({ classes, device }) => {
+    const [isEnabled, setIsEnabled] = useState(false);
+
+    const { currentAccount } = useContext(WalletAccountsContext);
+    const { addControllersInfoToBlockchain } = useContext(ControllerContext);
+
+    const controllerSignals = useSelector((state) => state.controller.controllerSignals);
+    const controllers = useSelector((state) => state.careHistory.controllersInfo);
+    const controllersCount = useSelector((state) => state.careHistory.controllersCount);
+
     const dispatch = useDispatch()
-    
+
     // Subscribe and get initial data from adafruit 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,7 +44,36 @@ const Device = ({classes, device}) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        setIsEnabled(currentAccount ? true : false);
+    }, [currentAccount]);
+
+
     const handleChange = async nextChecked => {
+        const options = {
+            timeZone: 'Asia/Ho_Chi_Minh',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        };
+        const vietnamTime = new Date().toLocaleString('en-US', options);
+
+        const controller = {
+            deviceName: 'Device ' + device.index,
+            createAt: vietnamTime,
+            value: nextChecked ? 1 : 0
+        }
+
+        if (controllersCount === 10) {
+            addControllersInfoToBlockchain(controllers);
+            dispatch(resetAll());
+        }
+
+        dispatch(pushControllerInfo(controller));
+
         dispatch(updateSignal([device.index, nextChecked]))
         // Publish to adafruit 
         try {
@@ -73,7 +114,8 @@ const Device = ({classes, device}) => {
                     <div className={deviceStatus ? classes.status : `${classes.status} ${classes.inactive}`}>
                         {deviceStatus ? 'active' : 'inactive'}
                     </div>
-                    <MySwitch 
+                    <MySwitch
+                        isEnabled={isEnabled}
                         onChange={handleChange}
                         checked={deviceStatus}
                     />
