@@ -1,65 +1,111 @@
-import MyChart from '../../Layout/DefaultLayout/UI/Chart'
-import SensorList from '../Sensor';
 import classes from './Stats.module.css'
-import {faker} from '@faker-js/faker';
-
-const Chart  = ({data, options}) => {
-    return (
-        <>
-            <div className={classes.chart}>
-                <div className={classes.title}>A sample chart</div>
-                <MyChart
-                    data={data}
-                    options={options}
-                />
-            </div>
-        </>
-    )
-}
-
+import Sensor from '../Sensor/'
+import {useState} from 'react'
+import { faker } from '@faker-js/faker'
+import MySlider from '../../Layout/DefaultLayout/UI/Slider'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Stats = () => {
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    const data ={
-        labels,
-        datasets: [
-            {
-                label: 'Sample 1',
-                data: labels.map(() => faker.number.int({min:10, max:50})),
-                borderColor: '#59CE8F',
-            },
-            {
-                label: 'Sample 2',
-                data: labels.map(() => faker.number.int({min:10, max:50})),
-                borderColor: '#1B6B93',
-            },
-        ]
+    const [active, setIsActive] = useState({
+        sensorID: -1,       
+    })
+
+    const generateRandomArray = (num) => {
+        const array = []
+        for(let i = 0; i < num; i++) array.push(faker.number.int({min:26, max:44}))
+        return array
     }
-    const options = {
-        responsive: true,
-        plugins: {
-          legend: {
-            align:"end",
-            labels:{
-                font:{
-                    size: 16,
-                },
-            },
-          },
+
+    const dummySensorList = [
+        {
+            name: 'Sensor 1',
+            status: true,
+            initVal: faker.number.int({min:26, max:44}),
+            updateCycle:1000,
         },
-      };
+        {
+            name: 'Sensor 2',
+            status: true,
+            initVal: faker.number.int({min:26, max:44}),
+            updateCycle:3000,
+        },
+        {
+            name: 'Sensor 3',
+            status: true,
+            initVal: faker.number.int({min:26, max:44}),
+            updateCycle:4000,
+        },
+        {
+            name: 'Sensor 4',
+            status: true,
+            initVal: faker.number.int({min:26, max:44}),
+            updateCycle:5000,
+        },
+    ]
+
+    const TopBtn = ({onClick}) => {
+        return (
+            <button onClick={onClick} className='top-btn'>
+                <FontAwesomeIcon className='icon' icon="fa-solid fa-angle-up" />
+            </button>
+        )
+    }
+    
+    const BotBtn = ({onClick}) => {
+        return (
+            <button onClick={onClick} className='bot-btn'>
+                <FontAwesomeIcon className='icon' icon="fa-solid fa-angle-down" />
+            </button>
+        )
+    }
+
+
+    const configuration = {
+        dots: false,
+        infinite: false,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        swipeToSlide: true,
+        vertical: true,
+        adaptiveHeight: false,
+        className: 'controller-Sensor',
+        arrows:true,
+        nextArrow: <BotBtn/>,
+        prevArrow: <TopBtn/>
+    }
+
     return (
         <>
             <div className={classes.stats}>
-                <Chart 
-                    data={data}
-                    options={options}
-                />
-                <SensorList/>
-            </div>
+                <div className={classes.chart} id='chartWindow'>
+                    {active.sensorID === -1 && 
+                    <p className={classes.none}>No sensor history here, please pick one</p>}
+                    {/* Chart will appear through this portal, hehe :) */}
+                </div>
 
+                <div className={classes.sensorList}>
+                    <MySlider config={configuration}>
+                        {
+                            dummySensorList.map((item,index) => 
+                                <Sensor 
+                                    key={index}
+                                    input = {{
+                                        name:item.name,
+                                        status:item.status, 
+                                        id:index,
+                                        active:active,
+                                        setStatus:setIsActive,
+                                        initdataset: generateRandomArray(7),
+                                        initvalue: item.initVal,
+                                        updateCycle: item.updateCycle
+                                    }}
+                                />
+                            )
+                        }
+                    </MySlider>
+                </div>
+            </div>
         </>
     )
 }
-
 export default Stats

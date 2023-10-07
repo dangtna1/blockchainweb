@@ -1,7 +1,6 @@
 import classes from './Dashboard.module.css'
 import Controller from './Controller'
 import Stats from './Stats'
-
 export default function Dashboard() {
     return (
         <>
@@ -9,7 +8,7 @@ export default function Dashboard() {
                 <div className={classes.title}>
                     DASHBOARD
                 </div>
-                <Controller />
+                <Controller/>
                 <Stats/>
             </div>
         </>

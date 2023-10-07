@@ -8,12 +8,12 @@ const CropsDisplay = () => {
     const {
         cropsInfo
     } = React.useContext(CropInfoContext);
-
+    console.log(cropsInfo)
     return (
         <>
             <div className={classes['crop-display']}>
                 <h1 className={classes.title}>All crops are in your hand</h1>
-                <RenderItems items={cropsInfo}/>
+                {cropsInfo.length > 0 ? <RenderItems items={cropsInfo}/> : <p className=' font-lato text-xl font-bold text-main-200 uppercase '>Please connect your wallet    </p>}
             </div>
         </>
     )

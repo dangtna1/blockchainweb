@@ -1,5 +1,5 @@
 import { Line } from 'react-chartjs-2';
-
+import React, { useImperativeHandle, useRef } from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,6 +9,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
   } from 'chart.js';
 
 ChartJS.register(
@@ -18,22 +19,29 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
-
+ChartJS.defaults.borderColor = 'rgba(237, 241, 214, 0.9)';
 ChartJS.defaults.color = '#609966';
 ChartJS.defaults.font.size ='18'
 ChartJS.defaults.font.family='lato'
-ChartJS.defaults.layout.padding= '24'
+ChartJS.defaults.font.weight='400'
+ChartJS.defaults.layout.padding.top='16'
+ChartJS.defaults.layout.padding.right='16'
 
-const MyChart = ({options, data}) => {
+
+// eslint-disable-next-line react/display-name
+const MyChart = React.forwardRef(({options, data}, ref) => {
+
     return (
         <Line
+            ref={ref}
             options={options}
             data={data}
         />
     )
-}
+})
 
 
 export default MyChart
