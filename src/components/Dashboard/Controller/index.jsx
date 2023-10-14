@@ -43,10 +43,19 @@ const Controller = () => {
     const configuration = {
         dots: false,
         infinite: true,
-        slidesToShow: 5,
-        slidesToScroll: 1,
         swipeToSlide: true,
         adaptiveHeight: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1280,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
         className: 'controller-Slider',
         nextArrow: <NextBtn />,
         prevArrow: <PrevBtn />,

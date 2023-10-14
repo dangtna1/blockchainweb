@@ -1,60 +1,40 @@
-import { NavLink } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import classes from './SideBar.module.css'
 
+//font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
+// Styled Components
+import { NavLink } from 'react-router-dom'
+
 export default function SideBar() {
+    const [sideBarStatus, setSideBarStatus] = useState(false)
+
     const items = [
         {
             path: '/',
             Name: 'Dashboard',
-            icon: (
-                <FontAwesomeIcon
-                    icon='fa-solid fa-chart-line'
-                    className='min-w-[24px]'
-                />
-            ),
+            icon: 'fa-chart-line',
         },
 
         {
             path: '/form',
             Name: 'Form',
-            icon: (
-                <FontAwesomeIcon
-                    icon='fa-solid fa-file-lines'
-                    className='min-w-[24px]'
-                />
-            ),
+            icon: 'fa-file-lines',
         },
         {
             path: '/crops-display',
             Name: 'Display',
-            icon: (
-                <FontAwesomeIcon
-                    icon='fa-solid fa-display'
-                    className='min-w-[24px]'
-                />
-            ),
+            icon: 'fa-display',
         },
         {
             path: '/market',
             Name: 'Market',
-            icon: (
-                <FontAwesomeIcon
-                    icon='fa-solid fa-wifi'
-                    className='min-w-[24px]'
-                />
-            ),
+            icon: 'fa-wifi',
         },
         {
             path: '/history',
             Name: 'History',
-            icon: (
-                <FontAwesomeIcon
-                    icon='fa-solid fa-clock'
-                    className='min-w-[24px]'
-                />
-            ),
+            icon: 'fa-solid fa-clock',
         },
     ]
 
@@ -65,8 +45,23 @@ export default function SideBar() {
                     <div className={classes.menu}>
                         {/* title */}
                         <div className={classes.text}>MENU</div>
+                        <FontAwesomeIcon
+                            onClick={() => setSideBarStatus((prev) => !prev)}
+                            icon='fa-solid fa-caret-left'
+                            className={
+                                sideBarStatus
+                                    ? `${classes.toggle} ${classes.active}`
+                                    : `${classes.toggle}`
+                            }
+                        />
                         {/* List */}
-                        <div className={classes['menu-list']}>
+                        <div
+                            className={
+                                sideBarStatus
+                                    ? `${classes['menu-list']} ${classes.active}`
+                                    : `${classes['menu-list']}`
+                            }
+                        >
                             {items.map((item, index) => (
                                 <NavLink
                                     to={item.path}
@@ -77,8 +72,11 @@ export default function SideBar() {
                                             : `${classes['item']}`
                                     }
                                 >
-                                    <div className={classes.icon}>
-                                        {item.icon}
+                                    <div className='min-w-[26px] min-h-[26px] flex items-center justify-center'>
+                                        <FontAwesomeIcon
+                                            icon={`fa-solid ${item.icon}`}
+                                            className={classes.icon}
+                                        />
                                     </div>
                                     <div className={classes.text}>
                                         {item.Name}
@@ -87,26 +85,6 @@ export default function SideBar() {
                             ))}
                         </div>
                     </div>
-
-                    {/* <div className="line"></div>
-
-                    <div className={classes.setting}>
-                        <div className="icon">
-                            <FontAwesomeIcon icon="fa-solid fa-gear" className='min-w-[24px]' />
-                        </div>
-                        <div className={classes.text}>
-                            Setting
-                        </div>
-                    </div>
-
-                    <div className={classes.profile}>
-                        <div className="icon">
-                            <FontAwesomeIcon icon="fa-solid fa-user"  className='min-w-[24px]'/>
-                        </div>
-                        <div className={classes.text}>
-                            Account
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </>

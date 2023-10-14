@@ -7,8 +7,10 @@ export default function Dashboard() {
         <>
             <div className={classes.dashboard}>
                 <div className={classes.title}>DASHBOARD</div>
-                <Controller />
-                <Stats />
+                <div className='flex flex-col'>
+                    <Controller />
+                    <Stats />
+                </div>
             </div>
         </>
     )

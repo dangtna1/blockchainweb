@@ -21,6 +21,7 @@ const History = () => {
             <h1 className={classes.MainTitle}>Care history</h1>
             <div className={classes['history-container']}>
                 <div className={classes['custom-scrollbar']}>
+                    <h2>CONTROLLER HISTORY</h2>
                     <a
                         href={contractAddressUrl}
                         target='_blank'
@@ -45,6 +46,7 @@ const History = () => {
                 </div>
 
                 <div className={classes['custom-scrollbar']}>
+                    <h2>SENSOR HISTORY</h2>
                     <a
                         href={sensorAddressUrl}
                         target='_blank'

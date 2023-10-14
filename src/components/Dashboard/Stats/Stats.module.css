@@ -1,19 +1,30 @@
 .stats {
-    @apply w-full h-auto flex gap-9 mt-8;
+    @apply order-first w-full h-auto flex flex-col gap-9 mt-8;
+    @screen laptop {
+        @apply order-last flex-row;
+    }
 }
 
 .chart {
     .none {
-        @apply w-full h-full flex justify-center text-2xl font-lato font-bold uppercase text-main-300;
+        @apply p-2 w-full h-full flex justify-center text-xl font-lato font-bold uppercase text-main-300;
+        @screen laptop {
+            @apply text-2xl;
+        }
     }
-    @apply w-full h-full basis-3/4 flex-col gap-8 px-4 py-6 rounded-xl;
-    box-shadow:
-        rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    .title {
-        @apply ml-2 mt-2 mb-14 font-bold uppercase text-4xl leading-4 text-main-400;
+
+    @apply w-full h-full gap-8 p-0.5;
+
+    @screen laptop {
+        @apply basis-3/4 flex-col gap-8 px-4 py-6  rounded-xl;
+        box-shadow:
+            rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     }
 }
 .sensorList {
-    @apply font-lato w-full h-auto basis-1/4 flex justify-center items-center;
+    @apply order-first font-lato w-full h-auto basis-1/4 flex justify-center items-center;
+    @screen laptop {
+        @apply order-last;
+    }
 }

@@ -3,12 +3,18 @@
 }
 
 .Main {
-    @apply w-full h-full flex bg-main-100;
+    @apply w-full h-full bg-main-100;
+    @screen laptop {
+        @apply flex flex-row;
+    }
 }
 
 .Content {
     @apply w-full flex flex-col py-2 px-3 overflow-y-hidden;
     .Inner {
-        @apply flex w-full h-fit shadow-layout bg-white rounded-lg pt-6 pb-12 px-8;
+        @apply flex w-full h-fit shadow-layout bg-white rounded-lg p-2;
+        @screen laptop {
+            @apply pt-6 pb-12 px-8;
+        }
     }
 }

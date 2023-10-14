@@ -1,8 +1,10 @@
 .controller-Slider {
     .next-btn {
         @apply hover:opacity-50 
-        z-50 flex items-center justify-center w-10 h-10 absolute -right-4 top-1/2 transform -translate-y-1/2;
-
+        z-40 flex items-center justify-center w-10 h-10 absolute -right-2 top-1/2 transform -translate-y-1/2;
+        @screen laptop {
+            @apply -right-4;
+        }
         .icon {
             @apply text-[32px] text-main-300;
         }
@@ -10,8 +12,10 @@
 
     .prev-btn {
         @apply hover:opacity-50 
-        z-50  flex items-center justify-center w-10 h-10 absolute -left-4 top-1/2 transform -translate-y-1/2;
-
+        z-40  flex items-center justify-center w-10 h-10 absolute -left-2 top-1/2 transform -translate-y-1/2;
+        @screen laptop {
+            @apply -left-4;
+        }
         .icon {
             @apply text-[32px] text-main-300;
         }
@@ -28,10 +32,17 @@
         @apply h-auto my-4;
     }
     .slick-slide {
+        & > div {
+            @apply flex justify-center;
+        }
     }
     .bot-btn {
         @apply hover:opacity-50 
-        z-50 flex items-center justify-center w-10 h-10 absolute -bottom-4 left-1/2 transform -translate-x-1/2;
+        -rotate-90 z-40 w-10 h-10 absolute -right-3 top-1/2 transform -translate-y-1/2;
+
+        @screen laptop {
+            @apply text-base rotate-0 top-full -bottom-12 left-1/2 -translate-x-1/2;
+        }
 
         .icon {
             @apply text-[32px] text-main-300;
@@ -39,10 +50,14 @@
     }
     .top-btn {
         @apply hover:opacity-50 
-        z-50  flex items-center justify-center w-10 h-10 absolute -top-4 left-1/2 transform -translate-x-1/2;
+        -rotate-90 z-40 w-10 h-10 absolute -left-1 top-1/2 transform -translate-y-1/2;
+
+        @screen laptop {
+            @apply text-base rotate-0 top-1 left-1/2 -translate-x-1/2;
+        }
 
         .icon {
-            @apply text-[32px] text-main-300;
+            @apply text-[32px] text-main-300 rotate-0;
         }
     }
 }

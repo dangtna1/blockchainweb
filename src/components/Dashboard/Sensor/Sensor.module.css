@@ -1,29 +1,44 @@
 .sensor {
-    @apply my-3 flex w-full items-center bg-white rounded-xl px-8 py-4;
-    box-shadow: #00000026 1.95px 1.95px 2.6px;
+    @apply max-w-[50%] px-4 py-2 my-3 flex w-full bg-white rounded-xl;
+    /* box-shadow: #00000026 1.95px 1.95px 2.6px; */
+    box-shadow:
+        rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
     .infor {
         @apply text-left w-full flex-col gap-2;
 
         .name {
-            @apply font-bold text-2xl text-main-300;
+            @apply font-bold text-lg text-main-300;
+            @screen laptop {
+                @apply text-2xl;
+            }
         }
         .status {
-            @apply text-base text-status-active;
-
+            @apply text-sm text-status-active;
+            @screen laptop {
+                @apply text-base;
+            }
             &.inactive {
                 @apply text-status-inactive;
             }
         }
         .value {
-            @apply font-bold text-2xl text-main-400;
+            @apply font-bold text-lg text-main-400;
+            @screen laptop {
+                @apply text-2xl;
+            }
         }
     }
 
     .imageWrapper {
-        @apply w-full h-full flex justify-end;
+        @apply w-full h-full flex justify-end  items-center;
 
         .image {
-            @apply text-status-active text-[40px];
+            @apply text-status-active text-[30px];
+            @screen laptop {
+                @apply text-[40px];
+            }
             &.inactive {
                 @apply text-status-inactive;
             }
@@ -31,7 +46,7 @@
     }
 
     &.active {
-        @apply bg-main-200;
+        @apply bg-main-300;
         .infor {
             .name {
                 @apply text-greyscale-200;
@@ -81,10 +96,20 @@
             }
         }
     }
+    @screen laptop {
+        @apply mx-0 max-w-none px-8 py-4;
+    }
+}
+
+.wrapper {
+    @apply w-full;
 }
 
 .inner {
     .title {
-        @apply ml-2 mt-2 mb-14 font-bold uppercase text-4xl leading-4 text-main-400;
+        @apply ml-2 mt-2 mb-12 text-xl font-bold uppercase  text-main-400;
+        @screen laptop {
+            @apply text-4xl leading-4 mb-14;
+        }
     }
 }

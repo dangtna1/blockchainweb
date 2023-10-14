@@ -1,5 +1,5 @@
 import Header from './Header'
-import SideBar from './SideBar'
+import DesktopSideBar from './SideBar'
 import Footer from './Footer'
 import classes from './DefaultLayout.module.css'
 
@@ -9,7 +9,7 @@ export default function DefaultLayout({ children }) {
             <div className={classes.Container}>
                 <Header />
                 <div className={classes.Main}>
-                    <SideBar />
+                    <DesktopSideBar />
                     <div className={classes.Content}>
                         <div className={classes.Inner}>{children}</div>
                         <div className='max-h-[130px] w-full'>

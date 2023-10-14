@@ -1,5 +1,9 @@
 .MainTitle {
-    @apply font-lato font-bold text-2xl text-primary-200 uppercase;
+    @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200;
+}
+
+.timestamp {
+    @apply font-lato font-bold text-main-300;
 }
 
 .detail-link {
@@ -19,18 +23,23 @@
     }
 }
 
-.timestamp {
-    @apply font-bold text-main-300;
+.history-container {
+    @apply w-full grid grid-cols-1 mt-5;
+    @screen laptop {
+        @apply grid-cols-2;
+    }
 }
 
-/* .outer-image-container {
-    @apply w-fit grid grid-cols-2 even:grayscale;
-
+.outer-image-container {
+    @apply hidden;
+    @screen laptop {
+        @apply w-full grid grid-cols-2 even:grayscale;
+    }
     .image-container {
         @apply border rounded-lg hover:grayscale-0;
 
         .image-style {
-            @apply w-full h-full object-cover rounded-lg  ;
+            @apply w-full h-full object-cover rounded-lg;
         }
     }
-} */
+}

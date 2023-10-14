@@ -7,7 +7,7 @@ import { shortenAddress } from '../../utils/shortenAddress'
 import Pic from '../../assets/Form/Pic.png'
 import classes from './Form.module.css'
 
-const Input = ({ placeholder, name, type, value, handleChange }) => (
+const Input = ({ placeholder, name, type, value, handleChange, required }) => (
     <input
         placeholder={placeholder}
         type={type}
@@ -15,6 +15,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
         value={value}
         onChange={(e) => handleChange(e, name)}
         className={classes.input}
+        required={required}
     />
 )
 
@@ -48,50 +49,77 @@ export default function Form() {
     }
 
     return (
-        <div className={classes.Form}>
+        <div className={classes.MainForm}>
             <div className={classes.Inner}>
                 <h1 className={classes.MainTitle}>Publish a crop</h1>
                 <div className={classes.Window}>
                     <div className={classes.Pic}>
                         <img src={Pic} />
+                        <div className={classes.box}>
+                            {currentAccount ? (
+                                <p>
+                                    You are interating with the smart contract
+                                    using wallet:{' '}
+                                    {shortenAddress(currentAccount)}
+                                </p>
+                            ) : (
+                                <p>Please connect your wallet first...</p>
+                            )}
+                        </div>
                     </div>
                     <div className={classes.Form}>
+                        <h1>Enter Your Information</h1>
+                        <h2>
+                            You can also{' '}
+                            <span
+                                className='text-orange-500 underline hover: cursor-pointer'
+                                onClick={createACrop}
+                            >
+                                initialize
+                            </span>{' '}
+                            a crop
+                        </h2>
                         <form
                             className={classes.MainForm}
                             onSubmit={handleSubmit}
                         >
                             <div className={classes['input-field']}>
                                 <div className={classes.item}>
-                                    <Label>Name*</Label>
                                     <Input
-                                        placeholder='Crop Type'
+                                        required={true}
                                         name='cropType'
                                         type='text'
                                         handleChange={handleChange}
                                     />
+                                    <Label>Crop Name</Label>
                                 </div>
-
                                 <div className={classes.item}>
-                                    <Label>Planting Date*</Label>
                                     <Input
-                                        placeholder='Planting Date'
+                                        required={true}
                                         name='plantingDate'
                                         type='date'
                                         handleChange={handleChange}
                                     />
+                                    <Label>Planting Date</Label>
                                 </div>
 
                                 <div className={classes.item}>
-                                    <Label>No. months to harvest*</Label>
                                     <Input
-                                        placeholder='No. months to harvest (intend)'
+                                        required={true}
                                         name='harvestDate'
                                         type='number'
                                         handleChange={handleChange}
                                     />
+                                    <Label>No. months to harvest</Label>
                                 </div>
 
                                 <div className={classes.item}>
+                                    <Input
+                                        required={true}
+                                        name='fertilizers'
+                                        type='text'
+                                        handleChange={handleChange}
+                                    />
                                     <Label>Fertilizes</Label>
                                     <Input
                                         placeholder='fertilizer1, fertilizer2, fertilizer3, ...'
@@ -102,6 +130,12 @@ export default function Form() {
                                 </div>
 
                                 <div className={classes.item}>
+                                    <Input
+                                        required={true}
+                                        name='pesticides'
+                                        type='text'
+                                        handleChange={handleChange}
+                                    />
                                     <Label>Pesticides</Label>
                                     <Input
                                         placeholder='pesticide1, pesticide2, pesticide3, ...'
@@ -112,6 +146,12 @@ export default function Form() {
                                 </div>
 
                                 <div className={classes.item}>
+                                    <Input
+                                        required={true}
+                                        name='diseases'
+                                        type='text'
+                                        handleChange={handleChange}
+                                    />
                                     <Label>Diseases</Label>
                                     <Input
                                         placeholder='disease1, disease2, disease3, ...'
@@ -122,6 +162,12 @@ export default function Form() {
                                 </div>
 
                                 <div className={classes.item}>
+                                    <Input
+                                        required={true}
+                                        name='additionalInfo'
+                                        type='text'
+                                        handleChange={handleChange}
+                                    />
                                     <Label>Additional information</Label>
                                     <Input
                                         placeholder='Additional information'
@@ -129,33 +175,6 @@ export default function Form() {
                                         type='text'
                                         handleChange={handleChange}
                                     />
-                                </div>
-
-                                <div className={classes.item}>
-                                    {currentAccount ? (
-                                        <Label>
-                                            You are interating with the smart
-                                            contract using wallet:{' '}
-                                            {shortenAddress(currentAccount)}
-                                        </Label>
-                                    ) : (
-                                        <Label>
-                                            Please connect your wallet first...
-                                        </Label>
-                                    )}
-                                </div>
-
-                                <div className={classes.item}>
-                                    <Label>
-                                        You can also{' '}
-                                        <span
-                                            className='text-orange-500 underline hover: cursor-pointer'
-                                            onClick={createACrop}
-                                        >
-                                            initialize
-                                        </span>{' '}
-                                        a crop
-                                    </Label>
                                 </div>
                             </div>
 

@@ -75,6 +75,24 @@ const Stats = () => {
         adaptiveHeight: false,
         className: 'controller-Sensor',
         arrows: true,
+        responsive: [
+            {
+                breakpoint: 1280,
+                settings: {
+                    vertical: false,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 834,
+                settings: {
+                    vertical: false,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
         nextArrow: <BotBtn />,
         prevArrow: <TopBtn />,
     }

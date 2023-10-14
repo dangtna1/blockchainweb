@@ -1,11 +1,13 @@
 .header {
-    @apply z-20 w-full shadow-header bg-white p-3 sticky;
-
+    @apply w-full shadow-layout bg-white px-3 py-2;
     .inner {
         @apply w-full flex justify-between;
 
         .title {
-            @apply uppercase font-bold text-primary-300 tracking-[0.2px] text-title-5;
+            @apply font-lato flex items-center max-w-[70%] uppercase font-bold text-[#557A46] text-title-1;
+            @screen laptop {
+                @apply text-title-5 tracking-[0.2px];
+            }
         }
     }
 }
@@ -24,9 +26,6 @@
     }
 }
 
-.button {
-    @apply flex justify-center items-center p-3 rounded-full bg-green-500 hover:bg-green-700;
-    & > .text {
-        @apply text-white text-base font-semibold;
-    }
+.text {
+    @apply text-white text-sm font-semibold;
 }

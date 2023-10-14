@@ -35,7 +35,7 @@ const Pagination = ({ perPage, totalItems, paginating, currPage }) => {
 
     return (
         <>
-            <div className='flex items-center justify-center gap-4 mt-14'>
+            <div className='flex items-center justify-center gap-4 mt-4 mb-6'>
                 <PrevPageButton onClick={() => paginating(currPage - 1)} />
 
                 <ul className={classes.pagination}>
