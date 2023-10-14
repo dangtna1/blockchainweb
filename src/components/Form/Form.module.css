@@ -2,13 +2,12 @@
     @apply w-full h-full;
 
     .Inner {
-        @apply bg-white flex flex-col gap-4
+        @apply bg-white flex flex-col gap-4;
     }
 }
 
 .MainTitle {
     @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200;
-
 }
 
 .Window {
@@ -41,14 +40,12 @@
             }
 
             .input {
-                @apply border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none
+                @apply border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none;
             }
         }
-
     }
 
     .Submit {
         @apply mt-6 bg-main-300 hover:bg-green-700 text-white font-bold py-2.5 px-9 rounded-lg;
-
     }
 }

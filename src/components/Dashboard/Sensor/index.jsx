@@ -1,150 +1,146 @@
-import React, {useRef, useEffect, useState, useCallback} from 'react';
-import MyChart from '../../Layout/DefaultLayout/UI/Chart'
-import classes from './Sensor.module.css'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faker } from '@faker-js/faker'
-import  {createPortal} from 'react-dom';
 
+import { pushSensorData } from '../../../store/sensorHistorySlice'
+import { feedKeyMapping, unitMapping } from '../../../utils/Mapping'
+import classes from './Sensor.module.css'
 
-//Generate fake value
-const generateFakeValue = type => {
+// Generate fake value (do not need this in the future)
+const generateFakeValue = (type) => {
     switch (type) {
-        case 'TEMP':
-            return faker.number.int({min:26, max:44})
+        case 'temp':
+            return faker.number.int({ min: 26, max: 44 })
+        case 'humi':
+            return faker.number.int({ min: 20, max: 80 })
+        case 'soilph':
+            return faker.number.int({ min: 5, max: 10 })
+        case 'soilmoisture':
+            return faker.number.int({ min: 10, max: 90 })
         default:
-            break;
+            break
     }
-
 }
 
+const publishDataToAdafruit = async (feedKey, value) => {
+    try {
+        const apiKey = 'aio_eWye58Xb7tE' + 'MMNtfGp0CsjtGecZv'
 
-const Chart  = React.forwardRef(({dataset},ref) => {
-    const labels =  ['24', '12', '6','3','2','1', 'now']     
-    const data ={
-        labels,
-        datasets: [
+        await axios.post(
+            `https://io.adafruit.com/api/v2/dangvudangtna1/feeds/${feedKey}/data`,
             {
-                label: 'Sensor',
-                data: dataset,
-                borderColor: '#59CE8F',
-                fill: true,
-                backgroundColor: 'rgba(188, 226, 158, 0.5)'
+                value: value,
             },
-        ]
+            {
+                headers: {
+                    'X-AIO-Key': apiKey,
+                },
+            }
+        )
+    } catch (error) {
+        console.error('Error writing data to Adafruit IO:', error)
     }
-    const options = {
-        responsive: true,
-        plugins: {
-          legend: {
-            display:false,
-          },
-        },
-        scales: {
-            y:  {
-                max:45,
-                min:25,
-                ticks:{
-                    stepSize: 4,
-                    padding:16
-                },
-                title: {
-                    display: true,
-                    text: 'SENSOR VALUE (C)',
-                    font:{
-                        size:20,
-                        weight: 700,
-                    },
-                    color: '#285430',
-                    padding:{
-                        bottom:12,
-                    }
-                }
-            },
-            x:{
-                title: {
-                    display: true,
-                    text: 'TIME (HOUR)',
-                    font:{
-                        size:20,
-                        weight: 700,
-                    },
-                    color: '#285430',
-                    padding:{
-                        top:12,
-                    }
-                },
-                ticks:{
-                    stepSize: 4,
-                    padding:16
-                },
+}
 
+const Sensor = ({ input }) => {
+    const dispatch = useDispatch()
+
+    const sensorActive = input.active.sensorID === input.id
+    const onClickHandler = () => {
+        input.setStatus((prev) => ({ ...prev, sensorID: input.id }))
+    }
+    const [sensorValue, setSensorValue] = useState(0)
+    useEffect(() => {
+        const fetchData = async () => {
+            const apiKey = 'aio_eWye58Xb7tE' + 'MMNtfGp0CsjtGecZv'
+            const sensorIndex = input.id
+            const url = `https://io.adafruit.com/api/v2/dangvudangtna1/feeds/${feedKeyMapping[sensorIndex]}/data/last`
+
+            try {
+                const response = await axios.get(url, {
+                    headers: {
+                        'X-AIO-Key': apiKey,
+                    },
+                })
+
+                setSensorValue(response.data.value)
+            } catch (error) {
+                console.error('Error fetching data:', error)
             }
         }
-    };
+        fetchData()
+    }, [])
 
+    //faking sensor values here and publsh them to adafruit server
+    useEffect(() => {
+        const myInterval = setInterval(() => {
+            const newValue = generateFakeValue(feedKeyMapping[input.id])
+
+            //start adding to global state and blockchain
+            const options = {
+                timeZone: 'Asia/Ho_Chi_Minh',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            }
+            const vietnamTime = new Date().toLocaleString('en-US', options)
+            const sensor = {
+                sensorType: input.name,
+                createAt: vietnamTime,
+                value: newValue,
+            }
+            console.log('start adding to global state')
+            dispatch(pushSensorData(sensor))
+            //end adding to global state and blockchain
+
+            publishDataToAdafruit(feedKeyMapping[input.id], newValue)
+            setSensorValue(newValue)
+        }, 10000)
+
+        return () => {
+            clearInterval(myInterval)
+        }
+    }, [])
     return (
         <>
-            <div className={classes.inner}>
-                <div className={classes.title}>Sensor History</div>
-                <MyChart
-                    ref={ref}
-                    data={data}
-                    options={options}
-                />
-            </div>
-        </>
-    )
-})
-
-const Sensor = ({input}) => {
-    const [sensorValue, setSensorValue] = useState(input.initvalue)
-    const [dataset, ] = useState(input.initdataset)
-    const chartRef = useRef()
-    const sensorActive = input.active.sensorID === input.id
-
-    useEffect(()=>{
-        const interval = setInterval(() => {
-            const temp = generateFakeValue('TEMP')
-            setSensorValue(temp)
-            if(sensorActive) {
-                if(chartRef.current.data.datasets[0].data.length > 6)
-                    chartRef.current.data.datasets[0].data?.shift()
-                chartRef.current.data.datasets[0].data.push(temp)
-                chartRef.current.update()
-            }
-
-        },input.updateCycle)
-        return () => clearInterval(interval)
-    },[input.updateCycle,sensorActive])
-
-
-    const ChartProtal = useCallback(() =>
-        createPortal(
-            <Chart
-                ref={chartRef}
-                dataset={dataset}
-            />,document.getElementById('chartWindow')),[dataset])
-
-    const onClickHandler = () => {
-        input.setStatus(prev => ({...prev, sensorID: input.id}))
-    }
-    return (
-        <>  
-            {sensorActive && <ChartProtal/>}          
-            <button className={sensorActive ? `${classes.sensor} ${classes.active}` :`${classes.sensor}`} onClick={onClickHandler}>
+            <button
+                className={
+                    sensorActive
+                        ? `${classes.sensor} ${classes.active}`
+                        : `${classes.sensor}`
+                }
+                onClick={onClickHandler}
+            >
                 <div className={classes.infor}>
-                    <div className={classes.name}>
-                        {input.name} 
-                    </div>
-                    <div className={input.status ? classes.status: `${classes.status} ${classes.inactive}`}>
+                    <div className={classes.name}>{input.name}</div>
+                    <div
+                        className={
+                            input.status
+                                ? classes.status
+                                : `${classes.status} ${classes.inactive}`
+                        }
+                    >
                         {input.status ? 'active' : 'inactive'}
                     </div>
                     <div className={classes.value}>
-                        {sensorValue}&deg;C
-                    </div>  
+                        {sensorValue}
+                        <span>{unitMapping[input.id]}</span>
+                    </div>
                 </div>
                 <div className={classes.imageWrapper}>
-                    <FontAwesomeIcon className={input.status ? classes.image: `${classes.image} ${classes.inactive}`} icon="fa-solid fa-fingerprint" />
+                    <FontAwesomeIcon
+                        className={
+                            input.status
+                                ? classes.image
+                                : `${classes.image} ${classes.inactive}`
+                        }
+                        icon='fa-solid fa-fingerprint'
+                    />
                 </div>
             </button>
         </>

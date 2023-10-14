@@ -2,31 +2,31 @@ import { useState, useEffect, createContext, useContext } from 'react'
 import { ethers } from 'ethers'
 
 import { WalletAccountsContext } from './WalletAccountsContext'
-import { controllerAddress, controllerABI } from '../utils/constants'
+import { sensorDataAddress, sensorDataABI } from '../utils/constants'
 
-export const ControllerContext = createContext()
+export const SensorDataContext = createContext()
 
 const { ethereum } = window
 
-const createControllerContract = () => {
+const createSensorDataContract = () => {
     // const privateKey = import.meta.env.VITE_PRIVATE_KEY; //to use this, create .env at root and include your private key there
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
     // const wallet = new ethers.Wallet(privateKey, provider); //uncomment this
-    const controllerContract = new ethers.Contract(
-        controllerAddress,
-        controllerABI,
+    const sensorDataContract = new ethers.Contract(
+        sensorDataAddress,
+        sensorDataABI,
         signer
     ) //change signer to wallet
-    return controllerContract
+    return sensorDataContract
 }
 
-export const ControllerProvider = ({ children }) => {
+export const SensorDataProvider = ({ children }) => {
     const { currentAccount, setCurrentAccount } = useContext(
         WalletAccountsContext
     )
-    const [controllersInfo, setControllersInfo] = useState([])
-    const [controllersCount, setControllersCount] = useState()
+    const [sensorsData, setSensorsData] = useState([])
+    const [sensorsDataCount, setSensorsDataCount] = useState()
 
     const checkIfWalletIsConnectedAndFetchData = async () => {
         try {
@@ -35,7 +35,7 @@ export const ControllerProvider = ({ children }) => {
             const accounts = await ethereum.request({ method: 'eth_accounts' })
             if (accounts.length) {
                 setCurrentAccount(accounts[0]) //In case we don't need to connect wallet again because of cache memory
-                getAllControllersInfo()
+                getAllSensorsData()
             } else {
                 console.log('No accounts found')
             }
@@ -45,14 +45,14 @@ export const ControllerProvider = ({ children }) => {
         }
     }
 
-    const getTheNumberOfControllersInfo = async () => {
+    const getTheNumberOfSensorsData = async () => {
         try {
             if (ethereum) {
-                const controllerContract = createControllerContract()
+                const sensorDataContract = createSensorDataContract()
 
-                const controllersCount =
-                    await controllerContract.getNumberOfControllersInfo()
-                setControllersCount(parseInt(controllersCount))
+                const sensorsCount =
+                    await sensorDataContract.getNumberOfSensorsData()
+                setSensorsDataCount(parseInt(sensorsCount))
             }
         } catch (error) {
             console.log(error)
@@ -60,22 +60,22 @@ export const ControllerProvider = ({ children }) => {
         }
     }
 
-    const getAllControllersInfo = async () => {
+    const getAllSensorsData = async () => {
         try {
             if (ethereum) {
-                const controllerContract = createControllerContract()
+                const sensorDataContract = createSensorDataContract()
 
-                const availableControllersInfo =
-                    await controllerContract.getAllControllersInfo()
+                const availableSensorsData =
+                    await sensorDataContract.getAllSensorsData()
 
-                const structuredControllersInfo = availableControllersInfo.map(
-                    (controller) => ({
-                        deviceName: controller.deviceName,
-                        createAt: controller.createAt,
-                        value: parseInt(controller.value),
+                const structuredSensorsData = availableSensorsData.map(
+                    (sensor) => ({
+                        sensorType: sensor.sensorType,
+                        createAt: sensor.createAt,
+                        value: parseInt(sensor.value),
                     })
                 )
-                setControllersInfo(structuredControllersInfo)
+                setSensorsData(structuredSensorsData)
             } else {
                 window.alert('No ethereum object')
             }
@@ -85,19 +85,19 @@ export const ControllerProvider = ({ children }) => {
         }
     }
 
-    const addControllersInfoToBlockchain = async (controllers) => {
+    const addSensorsDataToBlockchain = async (sensors) => {
         try {
             if (ethereum) {
-                const controllerContract = createControllerContract()
+                const sensorDataContract = createSensorDataContract()
 
                 //format before adding if needed ...
-                const controllerHash =
-                    await controllerContract.addControllerInfo(controllers)
-                await controllerHash.wait() //important
+                const sensorHash =
+                    await sensorDataContract.addSensorsData(sensors)
+                await sensorHash.wait() //important
 
-                const controllersCount =
-                    await controllerContract.getNumberOfControllersInfo()
-                setControllersCount(parseInt(controllersCount))
+                const sensorsCount =
+                    await sensorDataContract.getNumberOfSensorsData()
+                setSensorsDataCount(parseInt(sensorsCount))
             } else {
                 window.alert('No ethereum object')
             }
@@ -109,22 +109,22 @@ export const ControllerProvider = ({ children }) => {
 
     useEffect(() => {
         checkIfWalletIsConnectedAndFetchData()
-        getTheNumberOfControllersInfo()
-    }, [controllersCount])
+        getTheNumberOfSensorsData()
+    }, [sensorsDataCount])
 
     useEffect(() => {
-        if (currentAccount) getAllControllersInfo()
+        if (currentAccount) getAllSensorsData()
     }, [currentAccount])
 
     return (
-        <ControllerContext.Provider
+        <SensorDataContext.Provider
             value={{
-                controllersInfo,
+                sensorsData,
 
-                addControllersInfoToBlockchain,
+                addSensorsDataToBlockchain,
             }}
         >
             {children}
-        </ControllerContext.Provider>
+        </SensorDataContext.Provider>
     )
 }

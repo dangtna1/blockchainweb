@@ -1,20 +1,19 @@
-.stats{
+.stats {
     @apply w-full h-auto flex gap-9 mt-8;
 }
 
 .chart {
-    .none{
+    .none {
         @apply w-full h-full flex justify-center text-2xl font-lato font-bold uppercase text-main-300;
     }
-    @apply w-full h-full basis-3/4 flex-col gap-8 px-4 py-6 rounded-xl ;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    .title{
-        @apply ml-2 mt-2 mb-14 font-bold uppercase text-4xl leading-4 text-main-400; 
+    @apply w-full h-full basis-3/4 flex-col gap-8 px-4 py-6 rounded-xl;
+    box-shadow:
+        rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    .title {
+        @apply ml-2 mt-2 mb-14 font-bold uppercase text-4xl leading-4 text-main-400;
     }
 }
 .sensorList {
     @apply font-lato w-full h-auto basis-1/4 flex justify-center items-center;
-
 }
-
-

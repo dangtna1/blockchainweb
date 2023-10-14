@@ -1,41 +1,40 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import Device from './Device'
-import classes from './Controller.module.css'
 import MySlider from '../../Layout/DefaultLayout/UI/Slider'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classes from './Controller.module.css'
 
-
-const renderDevice = number => {
+const renderDevice = (number) => {
     const devices = []
 
     for (let i = 1; i <= number; i++) devices.push(i)
 
-    return(
-        devices.map((item, index) => {
-            return(
-                <Device
-                key = {index}
+    return devices.map((item, index) => {
+        return (
+            <Device
+                key={index}
                 classes={classes}
                 device={{
-                    name:`Device ${item}`,
+                    name: `Device ${item}`,
                     index: item,
-                }}/>
-            )
-        })
-    )
+                }}
+            />
+        )
+    })
 }
 
-const PrevBtn = ({onClick}) => {
+const PrevBtn = ({ onClick }) => {
     return (
         <button onClick={onClick} className='prev-btn'>
-            <FontAwesomeIcon className='icon' icon="fa-solid fa-angle-left" />
+            <FontAwesomeIcon className='icon' icon='fa-solid fa-angle-left' />
         </button>
     )
 }
 
-const NextBtn = ({onClick}) => {
+const NextBtn = ({ onClick }) => {
     return (
         <button onClick={onClick} className='next-btn'>
-            <FontAwesomeIcon className='icon' icon="fa-solid fa-angle-right" />
+            <FontAwesomeIcon className='icon' icon='fa-solid fa-angle-right' />
         </button>
     )
 }
@@ -49,15 +48,13 @@ const Controller = () => {
         swipeToSlide: true,
         adaptiveHeight: true,
         className: 'controller-Slider',
-        nextArrow: <NextBtn/>,
-        prevArrow: <PrevBtn/>
+        nextArrow: <NextBtn />,
+        prevArrow: <PrevBtn />,
     }
 
-    return(
+    return (
         <>
-            <MySlider config={configuration}>
-                {renderDevice(8)}
-            </MySlider>
+            <MySlider config={configuration}>{renderDevice(8)}</MySlider>
         </>
     )
 }

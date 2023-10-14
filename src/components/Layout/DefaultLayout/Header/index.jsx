@@ -1,12 +1,10 @@
-import { useContext } from 'react';
-import classes from './Header.module.css';
-import { WalletAccountsContext } from '../../../../context/WalletAccountsContext';
+import { useContext } from 'react'
+
+import { WalletAccountsContext } from '../../../../context/WalletAccountsContext'
+import classes from './Header.module.css'
 
 export default function Header() {
-    const {
-        currentAccount,
-        connectWallet,
-    } = useContext(WalletAccountsContext);
+    const { currentAccount, connectWallet } = useContext(WalletAccountsContext)
 
     return (
         <div className={classes.header}>
@@ -17,11 +15,11 @@ export default function Header() {
                 <div className={classes.profile}>
                     {!currentAccount && (
                         <button
-                            type="button"
+                            type='button'
                             onClick={connectWallet}
-                            className="self-end px-4 py-3 rounded-xl bg-main-300 hover:opacity-70"
+                            className='self-end px-4 py-3 rounded-xl bg-main-300 hover:opacity-70'
                         >
-                            <p className="text-white text-base font-semibold">
+                            <p className='text-white text-base font-semibold'>
                                 Connect Wallet
                             </p>
                         </button>

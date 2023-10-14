@@ -1,31 +1,75 @@
-import { useContext } from 'react';
+import { useContext } from 'react'
 
-import { ControllerContext } from '../../context/ControllerContext';
-import classes from './History.module.css';
-import Pic from '../../assets/History/Pic.jpg';
+import { ControllerContext } from '../../context/ControllerContext'
+import { SensorDataContext } from '../../context/SensorDataContext'
+import { controllerAddress } from '../../utils/constants'
+import { sensorDataAddress } from '../../utils/constants'
+import { NameToUnitMapping } from '../../utils/Mapping'
+import Pic from '../../assets/History/Pic.jpg'
+import classes from './History.module.css'
 
 const History = () => {
-  const { controllersInfo } = useContext(ControllerContext);
-  const reversedControllerInfo = [...controllersInfo].reverse();
+    const { controllersInfo } = useContext(ControllerContext)
+    const { sensorsData } = useContext(SensorDataContext)
+    const reversedControllerInfo = [...controllersInfo].reverse()
+    const reversedSensorsData = [...sensorsData].reverse()
+    const contractAddressUrl = `https://sepolia.etherscan.io/address/${controllerAddress}`
+    const sensorAddressUrl = `https://sepolia.etherscan.io/address/${sensorDataAddress}`
 
-  return (
-    <div>
-      <h1 className={classes.MainTitle}>Care history</h1>
-      
-      <div className={classes['history-container']}>
-        <div className={classes['custom-scrollbar']}>
-          <ul>
-            {reversedControllerInfo.map((controller, index) => {
-              const signal = controller.value === 1 ? "on" : "off";
-              const historyLine = `${controller.deviceName} was turned ${signal}`
-              return (
-                <li key={index}><span className={classes.timestamp}>{controller.createAt}: </span>{historyLine}</li>
-              )
-            })}
-          </ul>
-        </div>
-
+    return (
         <div>
+            <h1 className={classes.MainTitle}>Care history</h1>
+            <div className={classes['history-container']}>
+                <div className={classes['custom-scrollbar']}>
+                    <a
+                        href={contractAddressUrl}
+                        target='_blank'
+                        className={classes['detail-link']}
+                    >
+                        View more details on Etherscan
+                    </a>
+                    <ul>
+                        {reversedControllerInfo.map((controller, index) => {
+                            const signal = controller.value === 1 ? 'on' : 'off'
+                            const historyLine = `${controller.deviceName} was turned ${signal}`
+                            return (
+                                <li key={index}>
+                                    <span className={classes.timestamp}>
+                                        {controller.createAt}:{' '}
+                                    </span>
+                                    {historyLine}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+
+                <div className={classes['custom-scrollbar']}>
+                    <a
+                        href={sensorAddressUrl}
+                        target='_blank'
+                        className={classes['detail-link']}
+                    >
+                        View more details on Etherscan
+                    </a>
+                    <ul>
+                        {reversedSensorsData.map((sensor, index) => {
+                            const historyLine = `${sensor.sensorType} = ${
+                                sensor.value
+                            }${NameToUnitMapping[sensor.sensorType]}`
+                            return (
+                                <li key={index}>
+                                    <span className={classes.timestamp}>
+                                        {sensor.createAt}:{' '}
+                                    </span>
+                                    {historyLine}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+
+                {/* <div>
           <div className={classes['outer-image-container']}>
             <div className={classes['image-container']}>
               <img src={Pic} className={classes['image-style']} />
@@ -53,10 +97,24 @@ const History = () => {
               <img src={Pic} className={classes['image-style']} />
             </div>
           </div>
+
+          <div className={classes['outer-image-container']}>
+            <div className={classes['image-container']}>
+              <img src={Pic} className={classes['image-style']} />
+            </div>
+            <div></div>
+          </div>
+
+          <div className={classes['outer-image-container']}>
+            <div></div>
+            <div className={classes['image-container']}>
+              <img src={Pic} className={classes['image-style']} />
+            </div>
+          </div>
+        </div> */}
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
 
-export default History;
+export default History

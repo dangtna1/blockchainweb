@@ -18,4 +18,4 @@ const privateRoutes = [
     //add more private paths here
 ]
 
-export { privateRoutes, publicRoutes };
+export { privateRoutes, publicRoutes }

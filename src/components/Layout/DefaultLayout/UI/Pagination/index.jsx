@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Crop from '../../../../CropsDisplay/Crop/'
 import Pagination from './Pagination'
 
-const RenderItems = props => {
+const RenderItems = (props) => {
     const [currentPage, setCurrentPage] = useState(1)
     const perPage = 6
     const lastItemIDX = currentPage * perPage
@@ -12,7 +12,6 @@ const RenderItems = props => {
     const paginating = (number) => {
         setCurrentPage(number)
     }
-
 
     const currItems = props.items.slice(firstItemIDX, lastItemIDX)
     return (

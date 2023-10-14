@@ -1,64 +1,69 @@
-import classes from './Stats.module.css'
-import Sensor from '../Sensor/'
-import {useState} from 'react'
-import { faker } from '@faker-js/faker'
-import MySlider from '../../Layout/DefaultLayout/UI/Slider'
+import { useState, useContext } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Stats = () => {
-    const [active, setIsActive] = useState({
-        sensorID: -1,       
-    })
+import { SensorDataContext } from '../../../context/SensorDataContext'
+import { resetAllStates } from '../../../store/sensorHistorySlice'
+import Sensor from '../Sensor/'
+import MySlider from '../../Layout/DefaultLayout/UI/Slider'
+import ChartPortal from '../ChartPortal'
+import classes from './Stats.module.css'
 
-    const generateRandomArray = (num) => {
-        const array = []
-        for(let i = 0; i < num; i++) array.push(faker.number.int({min:26, max:44}))
-        return array
+const Stats = () => {
+    const dispatch = useDispatch()
+    const sensorsCount = useSelector(
+        (state) => state.sensorHistory.sensorsCount
+    )
+    const sensors = useSelector((state) => state.sensorHistory.sensorsData)
+    const { addSensorsDataToBlockchain } = useContext(SensorDataContext)
+
+    console.log(sensorsCount)
+    if (sensorsCount === 12) {
+        addSensorsDataToBlockchain(sensors)
+        dispatch(resetAllStates())
     }
+
+    const [active, setIsActive] = useState({
+        sensorID: -1,
+    })
 
     const dummySensorList = [
         {
-            name: 'Sensor 1',
+            name: 'Temperature',
             status: true,
-            initVal: faker.number.int({min:26, max:44}),
-            updateCycle:1000,
         },
         {
-            name: 'Sensor 2',
+            name: 'Humidity',
             status: true,
-            initVal: faker.number.int({min:26, max:44}),
-            updateCycle:3000,
         },
         {
-            name: 'Sensor 3',
+            name: 'Soil pH',
             status: true,
-            initVal: faker.number.int({min:26, max:44}),
-            updateCycle:4000,
         },
         {
-            name: 'Sensor 4',
+            name: 'Soil moisture',
             status: true,
-            initVal: faker.number.int({min:26, max:44}),
-            updateCycle:5000,
         },
     ]
 
-    const TopBtn = ({onClick}) => {
+    const TopBtn = ({ onClick }) => {
         return (
             <button onClick={onClick} className='top-btn'>
-                <FontAwesomeIcon className='icon' icon="fa-solid fa-angle-up" />
-            </button>
-        )
-    }
-    
-    const BotBtn = ({onClick}) => {
-        return (
-            <button onClick={onClick} className='bot-btn'>
-                <FontAwesomeIcon className='icon' icon="fa-solid fa-angle-down" />
+                <FontAwesomeIcon className='icon' icon='fa-solid fa-angle-up' />
             </button>
         )
     }
 
+    const BotBtn = ({ onClick }) => {
+        return (
+            <button onClick={onClick} className='bot-btn'>
+                <FontAwesomeIcon
+                    className='icon'
+                    icon='fa-solid fa-angle-down'
+                />
+            </button>
+        )
+    }
 
     const configuration = {
         dots: false,
@@ -69,39 +74,38 @@ const Stats = () => {
         vertical: true,
         adaptiveHeight: false,
         className: 'controller-Sensor',
-        arrows:true,
-        nextArrow: <BotBtn/>,
-        prevArrow: <TopBtn/>
+        arrows: true,
+        nextArrow: <BotBtn />,
+        prevArrow: <TopBtn />,
     }
 
     return (
         <>
             <div className={classes.stats}>
-                <div className={classes.chart} id='chartWindow'>
-                    {active.sensorID === -1 && 
-                    <p className={classes.none}>No sensor history here, please pick one</p>}
-                    {/* Chart will appear through this portal, hehe :) */}
+                <div className={classes.chart}>
+                    {active.sensorID === -1 ? (
+                        <p className={classes.none}>
+                            No sensor history here, please pick one
+                        </p>
+                    ) : (
+                        <ChartPortal chartIndex={active.sensorID} />
+                    )}
                 </div>
 
                 <div className={classes.sensorList}>
                     <MySlider config={configuration}>
-                        {
-                            dummySensorList.map((item,index) => 
-                                <Sensor 
-                                    key={index}
-                                    input = {{
-                                        name:item.name,
-                                        status:item.status, 
-                                        id:index,
-                                        active:active,
-                                        setStatus:setIsActive,
-                                        initdataset: generateRandomArray(7),
-                                        initvalue: item.initVal,
-                                        updateCycle: item.updateCycle
-                                    }}
-                                />
-                            )
-                        }
+                        {dummySensorList.map((item, index) => (
+                            <Sensor
+                                key={index}
+                                input={{
+                                    name: item.name,
+                                    status: item.status,
+                                    id: index,
+                                    active: active,
+                                    setStatus: setIsActive,
+                                }}
+                            />
+                        ))}
                     </MySlider>
                 </div>
             </div>

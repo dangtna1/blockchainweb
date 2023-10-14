@@ -1,0 +1,3 @@
+.chart-title {
+    @apply ml-2 mt-2 mb-14 font-bold uppercase text-4xl leading-4 text-main-400;
+}

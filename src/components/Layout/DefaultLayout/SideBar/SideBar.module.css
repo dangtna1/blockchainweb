@@ -7,12 +7,12 @@
         @apply h-full w-full flex flex-col items-center;
         .menu {
             @apply w-full;
-            &>.text {
+            & > .text {
                 @apply font-bold text-main-400 text-3xl;
             }
         }
     }
-}   
+}
 
 .setting {
     @apply w-full flex gap-4 items-center p-4;
@@ -20,7 +20,7 @@
     &:hover {
         @apply bg-greyscale-50 rounded-xl;
     }
-    &>.text {
+    & > .text {
         @apply font-semibold text-title-1 text-greyscale-500 tracking-[0.2px];
     }
 }
@@ -32,7 +32,7 @@
         @apply bg-greyscale-50 rounded-xl;
     }
 
-    &>.text {
+    & > .text {
         @apply font-semibold text-title-1 text-greyscale-500 tracking-[0.2px];
     }
 }
@@ -40,28 +40,25 @@
 .menu-list {
     @apply flex flex-col gap-2 mt-4;
     .item {
-        @apply flex gap-4 items-center px-4 py-3 rounded-xl text-base  ; 
+        @apply flex gap-4 items-center px-4 py-3 rounded-xl text-base;
 
         &:hover {
-            @apply bg-greyscale-50 ;
+            @apply bg-greyscale-50;
         }
-        &>.text {
+        & > .text {
             @apply font-semibold text-base text-greyscale-500 tracking-[0.2px];
         }
-        &>.icon{
+        & > .icon {
             @apply text-greyscale-500;
         }
-
     }
-    .item.active{
-        @apply bg-main-300 flex ;
-        &>.text  {
+    .item.active {
+        @apply bg-main-300 flex;
+        & > .text {
             @apply text-greyscale-100 font-bold;
         }
-        &>.icon{
+        & > .icon {
             @apply text-greyscale-100;
         }
-    
     }
-    
 }

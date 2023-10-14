@@ -1,33 +1,32 @@
-.header{
+.header {
     @apply z-20 w-full shadow-header bg-white p-3 sticky;
 
-    .inner{
-        @apply w-full flex justify-between; 
+    .inner {
+        @apply w-full flex justify-between;
 
-        .title{
+        .title {
             @apply uppercase font-bold text-primary-300 tracking-[0.2px] text-title-5;
         }
-
     }
 }
 
-.profile{
+.profile {
     @apply flex gap-3 items-center justify-center;
 
-    .avatar{
+    .avatar {
         @apply rounded-full w-10 h-10 bg-slate-600;
     }
-    .name{
+    .name {
         @apply font-bold text-caption-2 text-greyscale-900;
     }
-    .dropdown{
+    .dropdown {
         @apply ml-5;
     }
 }
 
-.button{
+.button {
     @apply flex justify-center items-center p-3 rounded-full bg-green-500 hover:bg-green-700;
-    & >.text{
+    & > .text {
         @apply text-white text-base font-semibold;
     }
 }

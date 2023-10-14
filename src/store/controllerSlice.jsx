@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 export const controllerSlice = createSlice({
     name: 'controller',
     initialState: {
-        controllerSignals: [0, 0, 0, 0, 0, 0, 0, 0]
+        controllerSignals: [0, 0, 0, 0, 0, 0, 0, 0],
     },
     reducers: {
         updateSignal: (state, action) => {
-            const index = action.payload[0] - 1;
-            const newSignal = action.payload[1];
-            state.controllerSignals[index] = newSignal;
+            const index = action.payload[0] - 1
+            const newSignal = action.payload[1]
+            state.controllerSignals[index] = newSignal
         },
     },
 })
