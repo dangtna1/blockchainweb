@@ -1,13 +1,10 @@
 import { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { WalletAccountsContext } from '../../../../context/WalletAccountsContext'
 import { ControllerContext } from '../../../../context/ControllerContext'
-import {
-    pushControllerInfo,
-    resetAll,
-} from '../../../../store/careHistorySlice'
+import { AdafruitContext } from '../../../../context/AdafruitContext'
+import { pushControllerInfo, resetAll } from '../../../../store/careHistorySlice'
 import { updateSignal } from '../../../../store/controllerSlice'
 import MySwitch from '../../../Layout/DefaultLayout/UI/Switch'
 import DeviceImage from '../../../../assets/Dashboard/Device/device.png'
@@ -17,47 +14,29 @@ const Device = ({ classes, device }) => {
 
     const { currentAccount } = useContext(WalletAccountsContext)
     const { addControllersInfoToBlockchain } = useContext(ControllerContext)
+    const { fetchControllerInfo, publishControllerInfo } = useContext(AdafruitContext)
 
-    const controllerSignals = useSelector(
-        (state) => state.controller.controllerSignals
-    )
-    const controllers = useSelector(
-        (state) => state.careHistory.controllersInfo
-    )
-    const controllersCount = useSelector(
-        (state) => state.careHistory.controllersCount
-    )
+    const controllerSignals = useSelector((state) => state.controller.controllerSignals)
+    const controllers = useSelector((state) => state.careHistory.controllersInfo)
+    const controllersCount = useSelector((state) => state.careHistory.controllersCount)
 
     const dispatch = useDispatch()
 
-    // Subscribe and get initial data from adafruit
+    // subscribe and get initial data from adafruit
     useEffect(() => {
         const fetchData = async () => {
-            const aioUsername = 'tamquattnb123'
-            const apiKey = 'aio_IibV61FsQe' + 'RVTkhPB98EgUnmwu0J'
-            const feedName = `relays.relay${device.index}`
-            const url = `https://io.adafruit.com/api/v2/${aioUsername}/feeds/${feedName}/data/last`
-
-            try {
-                const response = await axios.get(url, {
-                    headers: {
-                        'X-AIO-Key': apiKey,
-                    },
-                })
-                dispatch(
-                    updateSignal([device.index, parseInt(response.data.value)])
-                )
-            } catch (error) {
-                console.error('Error fetching data:', error)
-            }
+            const response = await fetchControllerInfo(`relays.relay${device.index}`)
+            dispatch(updateSignal([device.index, parseInt(response.data.value)]))
         }
         fetchData()
     }, [])
 
+    // enable or disable device
     useEffect(() => {
         setIsEnabled(currentAccount ? true : false)
     }, [currentAccount])
 
+    // toggle device
     const handleChange = async (nextChecked) => {
         const options = {
             timeZone: 'Asia/Ho_Chi_Minh',
@@ -84,26 +63,9 @@ const Device = ({ classes, device }) => {
         dispatch(pushControllerInfo(controller))
 
         dispatch(updateSignal([device.index, nextChecked]))
-        // Publish to adafruit
-        try {
-            const aioKey = 'aio_IibV61FsQe' + 'RVTkhPB98EgUnmwu0J'
-            const aioUsername = 'tamquattnb123'
-            const feedName = `relays.relay${device.index}`
 
-            await axios.post(
-                `https://io.adafruit.com/api/v2/${aioUsername}/feeds/${feedName}/data`,
-                {
-                    value: Number(nextChecked),
-                },
-                {
-                    headers: {
-                        'X-AIO-Key': aioKey,
-                    },
-                }
-            )
-        } catch (error) {
-            console.error('Error writing data to Adafruit IO:', error)
-        }
+        // publish to adafruit
+        publishControllerInfo(`relays.relay${device.index}`, Number(nextChecked))
     }
 
     const deviceStatus = controllerSignals[device.index - 1] == 1
@@ -120,9 +82,7 @@ const Device = ({ classes, device }) => {
                 <div className='w-full flex justify-between items-center'>
                     <div
                         className={
-                            deviceStatus
-                                ? classes.status
-                                : `${classes.status} ${classes.inactive}`
+                            deviceStatus ? classes.status : `${classes.status} ${classes.inactive}`
                         }
                     >
                         {deviceStatus ? 'active' : 'inactive'}

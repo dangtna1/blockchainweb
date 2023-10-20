@@ -1,33 +1,18 @@
-import { useState, useContext } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { SensorDataContext } from '../../../context/SensorDataContext'
-import { resetAllStates } from '../../../store/sensorHistorySlice'
 import Sensor from '../Sensor/'
 import MySlider from '../../Layout/DefaultLayout/UI/Slider'
 import ChartPortal from '../ChartPortal'
 import classes from './Stats.module.css'
 
 const Stats = () => {
-    const dispatch = useDispatch()
-    const sensorsCount = useSelector(
-        (state) => state.sensorHistory.sensorsCount
-    )
-    const sensors = useSelector((state) => state.sensorHistory.sensorsData)
-    const { addSensorsDataToBlockchain } = useContext(SensorDataContext)
-
-    console.log(sensorsCount)
-    if (sensorsCount === 12) {
-        addSensorsDataToBlockchain(sensors)
-        dispatch(resetAllStates())
-    }
-
     const [active, setIsActive] = useState({
         sensorID: -1,
     })
 
     const dummySensorList = [
+        //for rendering UI
         {
             name: 'Temperature',
             status: true,
@@ -57,10 +42,7 @@ const Stats = () => {
     const BotBtn = ({ onClick }) => {
         return (
             <button onClick={onClick} className='bot-btn'>
-                <FontAwesomeIcon
-                    className='icon'
-                    icon='fa-solid fa-angle-down'
-                />
+                <FontAwesomeIcon className='icon' icon='fa-solid fa-angle-down' />
             </button>
         )
     }
@@ -102,9 +84,7 @@ const Stats = () => {
             <div className={classes.stats}>
                 <div className={classes.chart}>
                     {active.sensorID === -1 ? (
-                        <p className={classes.none}>
-                            No sensor history here, please pick one
-                        </p>
+                        <p className={classes.none}>No sensor history here, please pick one</p>
                     ) : (
                         <ChartPortal chartIndex={active.sensorID} />
                     )}

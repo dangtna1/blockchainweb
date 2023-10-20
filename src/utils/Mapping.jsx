@@ -25,3 +25,10 @@ export const NameToUnitMapping = {
     'Soil pH': 'pH',
     'Soil moisture': '%',
 }
+
+export const feedKeyToNameMapping = {
+    temp: 'Temperature',
+    humi: 'Humidity',
+    soilph: 'Soil pH',
+    soilmoisture: 'Soil moisture',
+}

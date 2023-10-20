@@ -19,19 +19,12 @@ const Input = ({ placeholder, name, type, value, handleChange, required }) => (
     />
 )
 
-const Label = ({ children }) => (
-    <label className={classes.label}>{children}</label>
-)
+const Label = ({ children }) => <label className={classes.label}>{children}</label>
 
 export default function Form() {
     const { currentAccount } = useContext(WalletAccountsContext)
-    const {
-        formData,
-        handleChange,
-        addCropInfoToBlockChain,
-        initializeACrop,
-        isLoading,
-    } = useContext(CropInfoContext)
+    const { formData, handleChange, addCropInfoToBlockChain, initializeACrop, isLoading } =
+        useContext(CropInfoContext)
 
     const handleSubmit = (e) => {
         console.log('submit')
@@ -58,8 +51,7 @@ export default function Form() {
                         <div className={classes.box}>
                             {currentAccount ? (
                                 <p>
-                                    You are interating with the smart contract
-                                    using wallet:{' '}
+                                    You are interating with the smart contract using wallet:{' '}
                                     {shortenAddress(currentAccount)}
                                 </p>
                             ) : (
@@ -79,10 +71,7 @@ export default function Form() {
                             </span>{' '}
                             a crop
                         </h2>
-                        <form
-                            className={classes.MainForm}
-                            onSubmit={handleSubmit}
-                        >
+                        <form className={classes.MainForm} onSubmit={handleSubmit}>
                             <div className={classes['input-field']}>
                                 <div className={classes.item}>
                                     <Input
@@ -182,10 +171,7 @@ export default function Form() {
                                 {isLoading ? (
                                     <Loader></Loader>
                                 ) : (
-                                    <button
-                                        className={classes.Submit}
-                                        type='submit'
-                                    >
+                                    <button className={classes.Submit} type='submit'>
                                         Publish
                                     </button>
                                 )}

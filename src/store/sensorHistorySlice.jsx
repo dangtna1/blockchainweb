@@ -1,3 +1,5 @@
+//currently no in use
+
 import { createSlice } from '@reduxjs/toolkit'
 
 export const sensorHistorySlice = createSlice({

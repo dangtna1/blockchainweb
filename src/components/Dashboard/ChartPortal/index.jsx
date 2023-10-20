@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-import {
-    chartNameMapping,
-    feedKeyMapping,
-    unitMapping,
-} from '../../../utils/Mapping'
+import { chartNameMapping, feedKeyMapping, unitMapping } from '../../../utils/Mapping'
 import MyChart from '../../Layout/DefaultLayout/UI/Chart'
 import classes from './ChartPortal.module.css'
 
@@ -103,9 +99,7 @@ const ChartPortal = ({ chartIndex }) => {
 
     return (
         <div>
-            <div className={classes['chart-title']}>
-                {chartNameMapping[chartIndex]} History
-            </div>
+            <div className={classes['chart-title']}>{chartNameMapping[chartIndex]} History</div>
             <MyChart data={chartData} options={chartOptions} />
         </div>
     )

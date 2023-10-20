@@ -11,23 +11,15 @@ const { ethereum } = window
 const createEthereumContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
-    const cropInfoContract = new ethers.Contract(
-        cropInfoAddress,
-        cropInfoABI,
-        signer
-    )
+    const cropInfoContract = new ethers.Contract(cropInfoAddress, cropInfoABI, signer)
     return cropInfoContract
 }
 
 export const CropInfoProvider = ({ children }) => {
-    const { currentAccount, setCurrentAccount } = useContext(
-        WalletAccountsContext
-    )
+    const { currentAccount, setCurrentAccount } = useContext(WalletAccountsContext)
 
     const [cropsInfo, setCropsInfo] = useState([])
-    const [cropsCount, setCropsCount] = useState(
-        localStorage.getItem('cropsCount')
-    )
+    const [cropsCount, setCropsCount] = useState(localStorage.getItem('cropsCount'))
     const [formData, setformData] = useState({
         cropType: '',
         plantingDate: '',
@@ -58,8 +50,7 @@ export const CropInfoProvider = ({ children }) => {
         try {
             if (ethereum) {
                 const cropInfoContract = createEthereumContract()
-                const currentCropsCount =
-                    await cropInfoContract.getNumberOfCrop()
+                const currentCropsCount = await cropInfoContract.getNumberOfCrop()
 
                 window.localStorage.setItem('cropsCount', currentCropsCount)
             } else {
@@ -79,9 +70,7 @@ export const CropInfoProvider = ({ children }) => {
 
                 const structuredCrops = availableCrops.map((crop) => ({
                     cropType: crop.cropType,
-                    plantingDate: new Date(
-                        crop.plantingDate.toNumber() * 1000
-                    ).toLocaleString(),
+                    plantingDate: new Date(crop.plantingDate.toNumber() * 1000).toLocaleString(),
                     harvestDate: crop.monthsToHavest,
                     fertilizers: crop.fertilizers,
                     pesticides: crop.pesticides,
@@ -124,12 +113,9 @@ export const CropInfoProvider = ({ children }) => {
                     ) / 1000
                 // const unixHarvestDate = Date.parse(`${yearHarvestDate}-${monthHarvestDate}-${dayHarvestDate}T00:00:00Z`) / 1000;
 
-                const arrayFertilizers =
-                    fertilizers !== '' ? fertilizers.split(', ') : []
-                const arrayPesticides =
-                    pesticides !== '' ? pesticides.split(', ') : []
-                const arrayDiseases =
-                    diseases !== '' ? diseases.split(', ') : []
+                const arrayFertilizers = fertilizers !== '' ? fertilizers.split(', ') : []
+                const arrayPesticides = pesticides !== '' ? pesticides.split(', ') : []
+                const arrayDiseases = diseases !== '' ? diseases.split(', ') : []
 
                 console.log('start adding...')
                 const cropHash = await cropInfoContract.addCropInfo(
@@ -166,13 +152,9 @@ export const CropInfoProvider = ({ children }) => {
 
                 const plantingDate = new Date()
                 const year = String(plantingDate.getFullYear())
-                const month = String(plantingDate.getMonth() + 1).padStart(
-                    2,
-                    '0'
-                ) // Months are zero-based
+                const month = String(plantingDate.getMonth() + 1).padStart(2, '0') // Months are zero-based
                 const day = String(plantingDate.getDate()).padStart(2, '0')
-                const unixPlantingDate =
-                    Date.parse(`${year}-${month}-${day}T00:00:00Z`) / 1000
+                const unixPlantingDate = Date.parse(`${year}-${month}-${day}T00:00:00Z`) / 1000
 
                 const cropHash = await cropInfoContract.addCropInfo(
                     'flower',

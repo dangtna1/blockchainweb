@@ -13,18 +13,12 @@ const createControllerContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
     // const wallet = new ethers.Wallet(privateKey, provider); //uncomment this
-    const controllerContract = new ethers.Contract(
-        controllerAddress,
-        controllerABI,
-        signer
-    ) //change signer to wallet
+    const controllerContract = new ethers.Contract(controllerAddress, controllerABI, signer) //change signer to wallet
     return controllerContract
 }
 
 export const ControllerProvider = ({ children }) => {
-    const { currentAccount, setCurrentAccount } = useContext(
-        WalletAccountsContext
-    )
+    const { currentAccount, setCurrentAccount } = useContext(WalletAccountsContext)
     const [controllersInfo, setControllersInfo] = useState([])
     const [controllersCount, setControllersCount] = useState()
 
@@ -50,8 +44,7 @@ export const ControllerProvider = ({ children }) => {
             if (ethereum) {
                 const controllerContract = createControllerContract()
 
-                const controllersCount =
-                    await controllerContract.getNumberOfControllersInfo()
+                const controllersCount = await controllerContract.getNumberOfControllersInfo()
                 setControllersCount(parseInt(controllersCount))
             }
         } catch (error) {
@@ -65,16 +58,13 @@ export const ControllerProvider = ({ children }) => {
             if (ethereum) {
                 const controllerContract = createControllerContract()
 
-                const availableControllersInfo =
-                    await controllerContract.getAllControllersInfo()
+                const availableControllersInfo = await controllerContract.getAllControllersInfo()
 
-                const structuredControllersInfo = availableControllersInfo.map(
-                    (controller) => ({
-                        deviceName: controller.deviceName,
-                        createAt: controller.createAt,
-                        value: parseInt(controller.value),
-                    })
-                )
+                const structuredControllersInfo = availableControllersInfo.map((controller) => ({
+                    deviceName: controller.deviceName,
+                    createAt: controller.createAt,
+                    value: parseInt(controller.value),
+                }))
                 setControllersInfo(structuredControllersInfo)
             } else {
                 window.alert('No ethereum object')
@@ -91,12 +81,10 @@ export const ControllerProvider = ({ children }) => {
                 const controllerContract = createControllerContract()
 
                 //format before adding if needed ...
-                const controllerHash =
-                    await controllerContract.addControllerInfo(controllers)
+                const controllerHash = await controllerContract.addControllerInfo(controllers)
                 await controllerHash.wait() //important
 
-                const controllersCount =
-                    await controllerContract.getNumberOfControllersInfo()
+                const controllersCount = await controllerContract.getNumberOfControllersInfo()
                 setControllersCount(parseInt(controllersCount))
             } else {
                 window.alert('No ethereum object')

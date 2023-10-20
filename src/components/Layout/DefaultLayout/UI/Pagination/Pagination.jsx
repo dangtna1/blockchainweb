@@ -11,11 +11,7 @@ const Pagination = ({ perPage, totalItems, paginating, currPage }) => {
     //Pagination button handler
     const PrevPageButton = ({ onClick }) => {
         return (
-            <button
-                disabled={currPage === 1}
-                onClick={onClick}
-                className={classes['prev-page']}
-            >
+            <button disabled={currPage === 1} onClick={onClick} className={classes['prev-page']}>
                 <FontAwesomeIcon icon='fa-solid fa-chevron-left' />
             </button>
         )
@@ -49,10 +45,7 @@ const Pagination = ({ perPage, totalItems, paginating, currPage }) => {
                                     </li>
                                 )
                             }
-                            if (
-                                currPage < totalItems - 3 &&
-                                index === totalItems - 2
-                            ) {
+                            if (currPage < totalItems - 3 && index === totalItems - 2) {
                                 return (
                                     <li key={index}>
                                         <button>...</button>
@@ -62,15 +55,9 @@ const Pagination = ({ perPage, totalItems, paginating, currPage }) => {
                             return (
                                 <li
                                     key={index}
-                                    className={
-                                        currPage === index + 1
-                                            ? classes.active
-                                            : ''
-                                    }
+                                    className={currPage === index + 1 ? classes.active : ''}
                                 >
-                                    <button onClick={() => paginating(number)}>
-                                        {number}
-                                    </button>
+                                    <button onClick={() => paginating(number)}>{number}</button>
                                 </li>
                             )
                         }

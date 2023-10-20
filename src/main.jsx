@@ -8,6 +8,7 @@ import { CropInfoProvider } from './context/CropInfoContext'
 import { WalletAccountsProvider } from './context/WalletAccountsContext'
 import { ControllerProvider } from './context/ControllerContext'
 import { SensorDataProvider } from './context/SensorDataContext'
+import { AdafruitProvider } from './context/AdafruitContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -15,9 +16,11 @@ root.render(
         <SensorDataProvider>
             <ControllerProvider>
                 <CropInfoProvider>
-                    <Provider store={store}>
-                        <App />
-                    </Provider>
+                    <AdafruitProvider>
+                        <Provider store={store}>
+                            <App />
+                        </Provider>
+                    </AdafruitProvider>
                 </CropInfoProvider>
             </ControllerProvider>
         </SensorDataProvider>

@@ -26,9 +26,7 @@ const Crop = (props) => {
 
                 <div className='flex jutify-center items-center'>
                     <img src={date} alt='date' />
-                    <p className='text-primary-200 mx-2'>
-                        No. months to harvest:{' '}
-                    </p>
+                    <p className='text-primary-200 mx-2'>No. months to harvest: </p>
                     <span>{parseInt(crop.harvestDate)}</span>
                 </div>
 
@@ -52,9 +50,7 @@ const Crop = (props) => {
 
                 <div className='flex jutify-center items-center'>
                     <img src={cropnote} alt='additional information' />
-                    <p className='text-primary-200 mx-2'>
-                        Additional information:{' '}
-                    </p>
+                    <p className='text-primary-200 mx-2'>Additional information: </p>
                     <span>{crop.additionalInfo || 'none'}</span>
                 </div>
 

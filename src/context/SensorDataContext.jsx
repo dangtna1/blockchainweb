@@ -13,18 +13,12 @@ const createSensorDataContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
     // const wallet = new ethers.Wallet(privateKey, provider); //uncomment this
-    const sensorDataContract = new ethers.Contract(
-        sensorDataAddress,
-        sensorDataABI,
-        signer
-    ) //change signer to wallet
+    const sensorDataContract = new ethers.Contract(sensorDataAddress, sensorDataABI, signer) //change signer to wallet
     return sensorDataContract
 }
 
 export const SensorDataProvider = ({ children }) => {
-    const { currentAccount, setCurrentAccount } = useContext(
-        WalletAccountsContext
-    )
+    const { currentAccount, setCurrentAccount } = useContext(WalletAccountsContext)
     const [sensorsData, setSensorsData] = useState([])
     const [sensorsDataCount, setSensorsDataCount] = useState()
 
@@ -50,8 +44,7 @@ export const SensorDataProvider = ({ children }) => {
             if (ethereum) {
                 const sensorDataContract = createSensorDataContract()
 
-                const sensorsCount =
-                    await sensorDataContract.getNumberOfSensorsData()
+                const sensorsCount = await sensorDataContract.getNumberOfSensorsData()
                 setSensorsDataCount(parseInt(sensorsCount))
             }
         } catch (error) {
@@ -65,16 +58,13 @@ export const SensorDataProvider = ({ children }) => {
             if (ethereum) {
                 const sensorDataContract = createSensorDataContract()
 
-                const availableSensorsData =
-                    await sensorDataContract.getAllSensorsData()
+                const availableSensorsData = await sensorDataContract.getAllSensorsData()
 
-                const structuredSensorsData = availableSensorsData.map(
-                    (sensor) => ({
-                        sensorType: sensor.sensorType,
-                        createAt: sensor.createAt,
-                        value: parseInt(sensor.value),
-                    })
-                )
+                const structuredSensorsData = availableSensorsData.map((sensor) => ({
+                    sensorType: sensor.sensorType,
+                    createAt: sensor.createAt,
+                    value: parseInt(sensor.value),
+                }))
                 setSensorsData(structuredSensorsData)
             } else {
                 window.alert('No ethereum object')
@@ -91,12 +81,10 @@ export const SensorDataProvider = ({ children }) => {
                 const sensorDataContract = createSensorDataContract()
 
                 //format before adding if needed ...
-                const sensorHash =
-                    await sensorDataContract.addSensorsData(sensors)
+                const sensorHash = await sensorDataContract.addSensorsData(sensors)
                 await sensorHash.wait() //important
 
-                const sensorsCount =
-                    await sensorDataContract.getNumberOfSensorsData()
+                const sensorsCount = await sensorDataContract.getNumberOfSensorsData()
                 setSensorsDataCount(parseInt(sensorsCount))
             } else {
                 window.alert('No ethereum object')

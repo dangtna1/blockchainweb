@@ -6,7 +6,6 @@ import classes from './styles.module.css'
 
 const CropsDisplay = () => {
     const { cropsInfo } = useContext(CropInfoContext)
-    console.log(cropsInfo)
     return (
         <>
             <div className={classes['crop-display']}>

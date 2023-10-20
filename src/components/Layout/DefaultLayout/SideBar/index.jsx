@@ -78,9 +78,7 @@ export default function SideBar() {
                                             className={classes.icon}
                                         />
                                     </div>
-                                    <div className={classes.text}>
-                                        {item.Name}
-                                    </div>
+                                    <div className={classes.text}>{item.Name}</div>
                                 </NavLink>
                             ))}
                         </div>
