@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Device from './Device'
 import MySlider from '../../Layout/DefaultLayout/UI/Slider'
+import SpeechButton from './SpeechButton'
 import classes from './Controller.module.css'
 
 const renderDevice = (number) => {
@@ -64,6 +65,7 @@ const Controller = () => {
     return (
         <>
             <MySlider config={configuration}>{renderDevice(8)}</MySlider>
+            <SpeechButton />
         </>
     )
 }

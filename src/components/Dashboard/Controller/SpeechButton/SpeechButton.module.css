@@ -1,0 +1,7 @@
+.micro-button {
+    @apply w-20 h-20 bg-sky-100 rounded-lg flex mt-1 justify-center flex-col items-center hover:cursor-pointer absolute top-16 right-4;
+    
+    .text {
+        @apply text-sky-700 font-medium;
+    }
+}
