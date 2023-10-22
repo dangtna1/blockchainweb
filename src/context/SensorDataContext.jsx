@@ -35,7 +35,6 @@ export const SensorDataProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -49,7 +48,6 @@ export const SensorDataProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -67,11 +65,10 @@ export const SensorDataProvider = ({ children }) => {
                 }))
                 setSensorsData(structuredSensorsData)
             } else {
-                window.alert('No ethereum object')
+                //todo
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -87,11 +84,10 @@ export const SensorDataProvider = ({ children }) => {
                 const sensorsCount = await sensorDataContract.getNumberOfSensorsData()
                 setSensorsDataCount(parseInt(sensorsCount))
             } else {
-                window.alert('No ethereum object')
+                //todo
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 

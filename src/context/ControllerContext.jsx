@@ -35,7 +35,6 @@ export const ControllerProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -49,7 +48,6 @@ export const ControllerProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -67,11 +65,10 @@ export const ControllerProvider = ({ children }) => {
                 }))
                 setControllersInfo(structuredControllersInfo)
             } else {
-                window.alert('No ethereum object')
+                //todo
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -87,11 +84,10 @@ export const ControllerProvider = ({ children }) => {
                 const controllersCount = await controllerContract.getNumberOfControllersInfo()
                 setControllersCount(parseInt(controllersCount))
             } else {
-                window.alert('No ethereum object')
+                //todo
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 

@@ -141,7 +141,6 @@ export const CropInfoProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
@@ -179,7 +178,6 @@ export const CropInfoProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            window.alert('No ethereum object')
         }
     }
 
