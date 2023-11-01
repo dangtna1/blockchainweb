@@ -1,4 +1,5 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
+// import XLSX from 'xlsx'
 
 import { ControllerContext } from '../../context/ControllerContext'
 import { SensorDataContext } from '../../context/SensorDataContext'
@@ -21,6 +22,20 @@ const History = () => {
     const contractAddressUrl = `https://sepolia.etherscan.io/address/${controllerAddress}`
     const sensorAddressUrl = `https://sepolia.etherscan.io/address/${sensorDataAddress}`
 
+    const handleExportControllerInfoToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(reversedControllerInfo)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'ControllerInfo')
+        XLSX.writeFile(workbook, 'ControllerInfo.xlsx')
+    }
+
+    const handleExportSensorsDataToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(sortedSensorsData)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'SensorData')
+        XLSX.writeFile(workbook, 'SensorData.xlsx')
+    }
+
     return (
         <div>
             <h1 className={classes.MainTitle}>Care history</h1>
@@ -30,6 +45,14 @@ const History = () => {
                     <a href={contractAddressUrl} target='_blank' className={classes['detail-link']}>
                         View more details on Etherscan
                     </a>
+                    <div>
+                        <button
+                            className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
+                            onClick={handleExportControllerInfoToExcel}
+                        >
+                            Export
+                        </button>
+                    </div>
                     <ul>
                         {reversedControllerInfo.map((controller, index) => {
                             const signal = controller.value === 1 ? 'on' : 'off'
@@ -51,6 +74,14 @@ const History = () => {
                     <a href={sensorAddressUrl} target='_blank' className={classes['detail-link']}>
                         View more details on Etherscan
                     </a>
+                    <div>
+                        <button
+                            className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
+                            onClick={handleExportSensorsDataToExcel}
+                        >
+                            Export
+                        </button>
+                    </div>
                     <ul>
                         {sortedSensorsData.map((sensor, index) => {
                             const historyLine = `${sensor.sensorType} = ${sensor.value}${
