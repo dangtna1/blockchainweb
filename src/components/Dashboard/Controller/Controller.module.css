@@ -2,7 +2,7 @@
     @apply flex flex-col gap-4 rounded-xl p-4 my-9;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     .name {
-        @apply text-3xl font-bold text-main-400 text-center;
+        @apply text-xl font-bold text-main-400 text-center;
     }
 
     .imageWrapper {

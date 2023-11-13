@@ -7,9 +7,17 @@ import { AdafruitContext } from '../../../../context/AdafruitContext'
 import { pushControllerInfo, resetAll } from '../../../../store/careHistorySlice'
 import { updateSignal } from '../../../../store/controllerSlice'
 import MySwitch from '../../../Layout/DefaultLayout/UI/Switch'
-import DeviceImage from '../../../../assets/Dashboard/Device/device.png'
+import { deviceIndexToNameMapping } from '../../../../utils/Mapping'
+import RegionPump from '../../../../assets/Dashboard/Device/Region.png'
+import NutritionMixing from '../../../../assets/Dashboard/Device/Nutritious.png'
+import MainPump from '../../../../assets/Dashboard/Device/MainPump.png'
 
 const Device = ({ classes, device }) => {
+    const nameOfDevice = deviceIndexToNameMapping[device.index]
+    const deviceGroup1 = device.index == 1 || device.index == 2 || device.index == 3
+    const deviceGroup2 = device.index == 4 || device.index == 5 || device.index == 6
+    const deviceGroup3 = device.index == 7 || device.index == 8
+
     const [isEnabled, setIsEnabled] = useState(false)
 
     const { currentAccount } = useContext(WalletAccountsContext)
@@ -73,10 +81,16 @@ const Device = ({ classes, device }) => {
     return (
         <>
             <div className={classes.device}>
-                <div className={classes.name}>{device.name}</div>
+                <div className={classes.name}>{nameOfDevice}</div>
 
                 <div className={classes.imageWrapper}>
-                    <img className={classes.image} src={DeviceImage} />
+                    {deviceGroup1 ? (
+                        <img className={classes.image} src={NutritionMixing} />
+                    ) : deviceGroup2 ? (
+                        <img className={classes.image} src={RegionPump} />
+                    ) : (
+                        <img className={classes.image} src={MainPump} />
+                    )}
                 </div>
 
                 <div className='w-full flex justify-between items-center'>

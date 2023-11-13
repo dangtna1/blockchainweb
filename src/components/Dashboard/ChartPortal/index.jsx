@@ -8,30 +8,56 @@ import classes from './ChartPortal.module.css'
 const ChartPortal = ({ chartIndex }) => {
     const [data, setData] = useState([])
 
+    const waterSensorType = feedKeyMapping[chartIndex].startsWith('water')
+    const airSensorType = feedKeyMapping[chartIndex].startsWith('air')
+
     useEffect(() => {
         const fetchData = async () => {
             const apiKey = 'aio_eWye58Xb7tE' + 'MMNtfGp0CsjtGecZv'
             const url = `https://io.adafruit.com/api/v2/dangvudangtna1/feeds/${feedKeyMapping[chartIndex]}/data`
 
-            try {
-                const response = await axios.get(url, {
-                    headers: {
-                        'X-AIO-Key': apiKey,
-                    },
-                    params: {
-                        limit: 15, // maximum number of data points
-                    },
-                })
+            const apiKey3 = 'aio_XFcb24GncMdo' + 'PBgzXkV3SDc4UPPl'
+            const url3 = `https://io.adafruit.com/api/v2/fruitada_159357/feeds/${feedKeyMapping[chartIndex]}/data`
 
-                setData(response.data)
-            } catch (error) {
-                console.error('Error fetching data:', error)
+            if (
+                feedKeyMapping[chartIndex].startsWith('air') ||
+                feedKeyMapping[chartIndex].startsWith('water')
+            ) {
+                try {
+                    const response = await axios.get(url3, {
+                        headers: {
+                            'X-AIO-Key': apiKey3,
+                        },
+                        params: {
+                            limit: 15, // maximum number of data points
+                        },
+                    })
+
+                    setData(response.data)
+                } catch (error) {
+                    console.error('Error fetching data:', error)
+                }
+            } else {
+                try {
+                    const response = await axios.get(url, {
+                        headers: {
+                            'X-AIO-Key': apiKey,
+                        },
+                        params: {
+                            limit: 15, // maximum number of data points
+                        },
+                    })
+
+                    setData(response.data)
+                } catch (error) {
+                    console.error('Error fetching data:', error)
+                }
             }
         }
         fetchData()
         const myTimer = setInterval(() => {
             fetchData()
-        }, 2000)
+        }, 5000)
 
         return () => {
             clearInterval(myTimer)
@@ -58,8 +84,8 @@ const ChartPortal = ({ chartIndex }) => {
                 label: 'Sensor Data',
                 data: data.map((item) => item.value).reverse(),
                 fill: true,
-                borderColor: '#59CE8F',
-                backgroundColor: 'rgba(188, 226, 158, 0.5)',
+                borderColor: waterSensorType ? 'rgb(14, 165, 233)' : airSensorType ? '#59CE8F' : 'rgb(202, 138, 4)',
+                backgroundColor: waterSensorType ? 'rgba(103, 232, 249, 0.5)' : airSensorType ? 'rgba(188, 226, 158, 0.5)' : 'rgba(234, 179, 8, 0.5)',
             },
         ],
     }

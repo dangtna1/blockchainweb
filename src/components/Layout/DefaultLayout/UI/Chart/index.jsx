@@ -23,7 +23,7 @@ ChartJS.register(
     Filler
 )
 ChartJS.defaults.borderColor = 'rgba(237, 241, 214, 0.9)'
-ChartJS.defaults.color = '#609966'
+ChartJS.defaults.color = '#000000'
 ChartJS.defaults.font.size = '18'
 ChartJS.defaults.font.family = 'lato'
 ChartJS.defaults.font.weight = '400'

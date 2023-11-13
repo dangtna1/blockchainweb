@@ -15,18 +15,78 @@ const Stats = () => {
         //for rendering UI
         {
             name: 'Temperature',
+            label: 'soil',
             status: true,
         },
         {
             name: 'Humidity',
+            label: 'soil',
             status: true,
         },
         {
-            name: 'Soil pH',
+            name: 'pH',
+            label: 'soil',
             status: true,
         },
         {
-            name: 'Soil moisture',
+            name: 'EC',
+            label: 'soil',
+            status: true,
+        },
+        {
+            name: 'N',
+            label: 'soil',
+            status: true,
+        },
+        {
+            name: 'P',
+            label: 'soil',
+            status: true,
+        },
+        {
+            name: 'K',
+            label: 'soil',
+            status: true,
+        },
+
+        {
+            name: 'Temperature',
+            label: 'air',
+            status: true,
+        },
+        {
+            name: 'Humidity',
+            label: 'air',
+            status: true,
+        },
+        {
+            name: 'Light',
+            label: 'air',
+            status: true,
+        },
+        {
+            name: 'CO2',
+            label: 'air',
+            status: true,
+        },
+        {
+            name: 'Temperature',
+            label: 'water',
+            status: true,
+        },
+        {
+            name: 'PH',
+            label: 'water',
+            status: true,
+        },
+        {
+            name: 'EC',
+            label: 'water',
+            status: true,
+        },
+        {
+            name: 'ORP',
+            label: 'water',
             status: true,
         },
     ]
@@ -97,6 +157,7 @@ const Stats = () => {
                                 key={index}
                                 input={{
                                     name: item.name,
+                                    label: item.label,
                                     status: item.status,
                                     id: index,
                                     active: active,

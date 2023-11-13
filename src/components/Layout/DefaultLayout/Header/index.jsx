@@ -9,9 +9,7 @@ export default function Header() {
     return (
         <div className={classes.header}>
             <div className={classes.inner}>
-                <div className={classes.title}>
-                    SmartWallet: Revolutionizing Payments with Blockchain
-                </div>
+                <div className={classes.title}>Block by Block - Shielding the Future</div>
                 <div className={classes.profile}>
                     {!currentAccount && (
                         <button

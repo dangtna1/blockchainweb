@@ -65,7 +65,7 @@ export const SensorDataProvider = ({ children }) => {
                 }))
                 setSensorsData(structuredSensorsData)
             } else {
-                //todo
+                console.log('Ethereum is not present')
             }
         } catch (error) {
             console.log(error)

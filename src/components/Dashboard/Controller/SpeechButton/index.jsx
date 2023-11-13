@@ -147,7 +147,7 @@ const SpeechButton = () => {
         <>
             <div onClick={toggleListening} className={classes['micro-button']}>
                 <img src={MicroImage} />
-                <div class={classes.text}>{isListening ? 'Listening...' : 'Start'}</div>
+                <div className={classes.text}>{isListening ? 'Listening...' : 'Start'}</div>
             </div>
         </>
     )
