@@ -21,7 +21,35 @@ npm Install
 npm run dev
 
 # Demo
-![Dahboard Image](src/assets/Dashboard/Device/Region.png)
+## Web view
+![Dahboard Image 1](src/assets/demo/dashboard1.jpg)
+
+![Dahboard Image 2](src/assets/demo/dashboard2.jpg)
+
+![Form Image](src/assets/demo/form1.jpg)
+
+![Display Image](src/assets/demo/display.jpg)
+
+![Edit Image](src/assets/demo/edit.jpg)
+
+![Market Image](src/assets/demo/market.jpg)
+
+![Transaction Image](src/assets/demo/transaction.jpg)
+
+![Hitory Image](src/assets/demo/history.jpg)
+
+## Mobile view
+![Dahboard Image 1](src/assets/demo/dashboard%20mobile.jpg)
+
+![Form Image](src/assets/demo/form%20mobile.jpg)
+
+![Display Image](src/assets/demo/display%20mobile.jpg)
+
+![Edit Image](src/assets/demo/edit%20mobile.jpg)
+
+![Market Image](src/assets/demo/market%20mobile.jpg)
+
+![Hitory Image](src/assets/demo/history%20mobile.jpg)
 
 # About
 Currently, two official plugins are available:
