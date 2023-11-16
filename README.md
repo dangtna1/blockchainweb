@@ -17,6 +17,7 @@
 Installing metamask extension in your browser is a must to Fully use all of the components in our app
 ## How to run:
 npm Install
+
 npm run dev
 
 Currently, two official plugins are available:
