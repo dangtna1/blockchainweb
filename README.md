@@ -14,12 +14,16 @@
 
 # How to use
 ## Requirements: 
-Installing metamask extension in your browser is a must to Fully use all of the components in our app
+Installing metamask extension in your browser is a must to Fully use all of the components in our app.
 ## How to run:
 npm Install
 
 npm run dev
 
+# Demo
+![Dahboard Image](src/assets/Dashboard/Device/Region.png)
+
+# About
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
