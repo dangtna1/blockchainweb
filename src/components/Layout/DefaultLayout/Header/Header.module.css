@@ -1,10 +1,10 @@
 .header {
-    @apply w-full shadow-layout bg-white px-3 py-2;
+    @apply w-full shadow-layout bg-main-300 px-3 py-2;
     .inner {
         @apply w-full flex justify-between;
 
         .title {
-            @apply font-lato flex items-center max-w-[70%] uppercase font-bold text-[#557A46] text-title-1;
+            @apply font-lato flex items-center uppercase font-bold text-[#557A46] text-title-1 justify-center w-full text-greyscale-50;
             @screen laptop {
                 @apply text-title-5 tracking-[0.2px];
             }
@@ -27,5 +27,5 @@
 }
 
 .text {
-    @apply text-white text-sm font-semibold;
+    @apply text-greyscale-100 text-sm font-semibold;
 }

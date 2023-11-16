@@ -1,5 +1,7 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { WalletAccountsContext } from '../../../context/WalletAccountsContext'
 import Device from './Device'
 import MySlider from '../../Layout/DefaultLayout/UI/Slider'
 import SpeechButton from './SpeechButton'
@@ -62,10 +64,12 @@ const Controller = () => {
         prevArrow: <PrevBtn />,
     }
 
+    const { currentAccount } = useContext(WalletAccountsContext)
+
     return (
         <>
             <MySlider config={configuration}>{renderDevice(8)}</MySlider>
-            <SpeechButton />
+            {currentAccount && <SpeechButton/>}
         </>
     )
 }

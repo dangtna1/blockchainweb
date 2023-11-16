@@ -2,9 +2,12 @@ import { useState, useEffect, createContext, useContext } from 'react'
 import axios from 'axios'
 import { Client } from 'paho-mqtt'
 import { faker } from '@faker-js/faker'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { SensorDataContext } from './SensorDataContext'
 import { feedKeyToNameMapping } from '../utils/Mapping'
+import { ControllerContext } from './ControllerContext'
+import { resetAll } from '../store/careHistorySlice'
 
 export const AdafruitContext = createContext()
 
@@ -42,6 +45,13 @@ export const AdafruitProvider = ({ children }) => {
     const [sensorCount, setSensorCount] = useState(0)
 
     const { addSensorsDataToBlockchain } = useContext(SensorDataContext)
+
+    //global controllers
+    const { addControllersInfoToBlockchain } = useContext(ControllerContext)
+    const controllers = useSelector((state) => state.careHistory.controllersInfo)
+    const controllersCount = useSelector((state) => state.careHistory.controllersCount)
+
+    const dispatch = useDispatch()
 
     const fetchControllerInfo = async (feedName) => {
         const url = `https://io.adafruit.com/api/v2/${aioUsername1}/feeds/${feedName}/data/last`
@@ -238,6 +248,7 @@ export const AdafruitProvider = ({ children }) => {
     useEffect(() => {
         const myInterval = setInterval(() => {
             if (sensorIndex === 0 && counter >= 60) {
+                //reset every 30 seconds
                 counter = 0
 
                 const currentValue = generateFakeValue(sensorArray[sensorIndex])
@@ -340,6 +351,13 @@ export const AdafruitProvider = ({ children }) => {
                 console.log(structuredSensorsData)
                 sensorsDataBlock = []
                 addSensorsDataToBlockchain(structuredSensorsData)
+
+                //check and push controllers to the blockchain if having
+                if (controllersCount != 0) {
+                    console.log(controllersCount)
+                    addControllersInfoToBlockchain(controllers)
+                    dispatch(resetAll())
+                }
             }, 2000)
         }
     }, [sensorCount])

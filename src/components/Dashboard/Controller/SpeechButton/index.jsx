@@ -6,6 +6,7 @@ import { updateSignal } from '../../../../store/controllerSlice'
 import { pushControllerInfo, resetAll } from '../../../../store/careHistorySlice'
 import { AdafruitContext } from '../../../../context/AdafruitContext'
 import { ControllerContext } from '../../../../context/ControllerContext'
+import { deviceIndexToNameMapping } from '../../../../utils/Mapping'
 import MicroImage from '../../../../assets/Dashboard/Micro/icons8-microphone-64.png'
 
 import classes from './SpeechButton.module.css'
@@ -35,7 +36,7 @@ const SpeechButton = () => {
     const turnOnDeviceBySpeech = (index) => {
         const vietnamTime = new Date().toLocaleString('en-US', options)
         const controller = {
-            deviceName: 'Device ' + index,
+            deviceName: deviceIndexToNameMapping[index],
             createAt: vietnamTime,
             value: 1,
         }
@@ -51,7 +52,7 @@ const SpeechButton = () => {
     const turnOffDeviceBySpeech = (index) => {
         const vietnamTime = new Date().toLocaleString('en-US', options)
         const controller = {
-            deviceName: 'Device ' + index,
+            deviceName: deviceIndexToNameMapping[index],
             createAt: vietnamTime,
             value: 0,
         }
@@ -67,52 +68,52 @@ const SpeechButton = () => {
     useEffect(() => {
         if (annyang) {
             const commands = {
-                'turn on device 1': () => {
+                'turn on nutritious liquid 1': () => {
                     turnOnDeviceBySpeech(1)
                 },
-                'turn off device 1': () => {
+                'turn off nutritious liquid 1': () => {
                     turnOffDeviceBySpeech(1)
                 },
-                'turn on device 2': () => {
+                'turn on nutritious liquid 2': () => {
                     turnOnDeviceBySpeech(2)
                 },
-                'turn off device 2': () => {
+                'turn off nutritious liquid 2': () => {
                     turnOffDeviceBySpeech(2)
                 },
-                'turn on device 3': () => {
+                'turn on nutritious liquid 3': () => {
                     turnOnDeviceBySpeech(3)
                 },
-                'turn off device 3': () => {
+                'turn off nutritious liquid 3': () => {
                     turnOffDeviceBySpeech(3)
                 },
-                'turn on device 4': () => {
+                'turn on region irrigation 1': () => {
                     turnOnDeviceBySpeech(4)
                 },
-                'turn off device 4': () => {
+                'turn off region irrigation 1': () => {
                     turnOffDeviceBySpeech(4)
                 },
-                'turn on device 5': () => {
+                'turn on region irrigation 2': () => {
                     turnOnDeviceBySpeech(5)
                 },
-                'turn off device 5': () => {
+                'turn off region irrigation 2': () => {
                     turnOffDeviceBySpeech(5)
                 },
-                'turn on device 6': () => {
+                'turn on region irrigation 3': () => {
                     turnOnDeviceBySpeech(6)
                 },
-                'turn off device 6': () => {
+                'turn off region irrigation 3': () => {
                     turnOffDeviceBySpeech(6)
                 },
-                'turn on device 7': () => {
+                'turn on main pump in': () => {
                     turnOnDeviceBySpeech(7)
                 },
-                'turn off device 7': () => {
+                'turn off main pump in': () => {
                     turnOffDeviceBySpeech(7)
                 },
-                'turn on device 8': () => {
+                'turn on main pump out': () => {
                     turnOnDeviceBySpeech(8)
                 },
-                'turn off device 8': () => {
+                'turn off main pump out': () => {
                     turnOffDeviceBySpeech(8)
                 },
             }

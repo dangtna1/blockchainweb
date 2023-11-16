@@ -24,6 +24,7 @@ export const CropInfoProvider = ({ children }) => {
         cropType: '',
         plantingDate: '',
         harvestDate: 0,
+        noOfCrops: 0,
         fertilizers: '',
         pesticides: '',
         diseases: '',
@@ -69,6 +70,7 @@ export const CropInfoProvider = ({ children }) => {
                 const availableCrops = await cropInfoContract.getAllCropsInfo()
 
                 const structuredCrops = availableCrops.map((crop) => ({
+                    cropId: crop.cropId,
                     cropType: crop.cropType,
                     plantingDate: new Date(crop.plantingDate.toNumber() * 1000).toLocaleString(),
                     harvestDate: crop.monthsToHavest,
@@ -100,6 +102,7 @@ export const CropInfoProvider = ({ children }) => {
                     pesticides,
                     diseases,
                     additionalInfo,
+                    noOfCrops,
                 } = formData
 
                 //convert date to Unix timestamp
@@ -125,7 +128,8 @@ export const CropInfoProvider = ({ children }) => {
                     arrayFertilizers,
                     arrayPesticides,
                     arrayDiseases,
-                    additionalInfo
+                    additionalInfo,
+                    noOfCrops
                 )
 
                 setIsLoading(true)
@@ -136,6 +140,84 @@ export const CropInfoProvider = ({ children }) => {
 
                 const cropsCount = await cropInfoContract.getNumberOfCrop()
                 setCropsCount(cropsCount.toNumber())
+            } else {
+                console.log('No ethereum object')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getCropInfo = async (cropId) => {
+        try {
+            if (ethereum) {
+                const cropInfoContract = createEthereumContract()
+                const cropInfoHash = await cropInfoContract.getCropInfo(cropId)
+                return cropInfoHash
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const updateCropInfo = async (
+        cropId,
+        cropType,
+        plantingDate,
+        harvestDate,
+        fertilizers,
+        pesticides,
+        diseases,
+        additionalInfo
+    ) => {
+        try {
+            if (ethereum) {
+                const cropInfoContract = createEthereumContract()
+
+                let unixPlantingDate
+                if (plantingDate.indexOf('/') != -1) {
+                    const originalDate = new Date(plantingDate)
+
+                    // Extract year, month, and day components
+                    const year = originalDate.getFullYear()
+                    const month = ('0' + (originalDate.getMonth() + 1)).slice(-2)
+                    const day = ('0' + originalDate.getDate()).slice(-2)
+
+                    // Create the date in the year-month-day format
+                    unixPlantingDate = Date.parse(`${year}-${month}-${day}T00:00:00Z`) / 1000
+                } else {
+                    //convert date to Unix timestamp
+                    const [yearPlantingDate, monthPlantingDate, dayPlantingDate] =
+                        plantingDate.split('-')
+                    // const [yearHarvestDate, monthHarvestDate, dayHarvestDate] = harvestDate.split('-');
+
+                    unixPlantingDate =
+                        Date.parse(
+                            `${yearPlantingDate}-${monthPlantingDate}-${dayPlantingDate}T00:00:00Z`
+                        ) / 1000
+                }
+
+                const arrayFertilizers = fertilizers != '' ? fertilizers.split(', ') : []
+                const arrayPesticides = pesticides != '' ? pesticides.split(', ') : []
+                const arrayDiseases = diseases != '' ? diseases.split(', ') : []
+
+                const cropUpdateHash = await cropInfoContract.updateCropInfo(
+                    cropId,
+                    cropType,
+                    unixPlantingDate,
+                    harvestDate,
+                    arrayFertilizers,
+                    arrayPesticides,
+                    arrayDiseases,
+                    additionalInfo
+                )
+                
+                setIsLoading(true)
+                await cropUpdateHash.wait()
+                setIsLoading(false)
+
+                window.alert('Update the crop information successfully')
+                getAllCropsInfo() //fetch all crops back after updating
             } else {
                 console.log('No ethereum object')
             }
@@ -158,11 +240,12 @@ export const CropInfoProvider = ({ children }) => {
                 const cropHash = await cropInfoContract.addCropInfo(
                     'flower',
                     unixPlantingDate,
-                    0,
+                    1,
                     [],
                     [],
                     [],
-                    ''
+                    '',
+                    1
                 )
 
                 setIsLoading(true)
@@ -216,6 +299,8 @@ export const CropInfoProvider = ({ children }) => {
                 handleChange,
                 addCropInfoToBlockChain,
                 initializeACrop,
+                getCropInfo,
+                updateCropInfo,
             }}
         >
             {children}

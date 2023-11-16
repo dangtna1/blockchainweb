@@ -16,7 +16,7 @@ const Device = ({ classes, device }) => {
     const nameOfDevice = deviceIndexToNameMapping[device.index]
     const deviceGroup1 = device.index == 1 || device.index == 2 || device.index == 3
     const deviceGroup2 = device.index == 4 || device.index == 5 || device.index == 6
-    const deviceGroup3 = device.index == 7 || device.index == 8
+    // const deviceGroup3 = device.index == 7 || device.index == 8
 
     const [isEnabled, setIsEnabled] = useState(false)
 
@@ -58,7 +58,7 @@ const Device = ({ classes, device }) => {
         const vietnamTime = new Date().toLocaleString('en-US', options)
 
         const controller = {
-            deviceName: 'Device ' + device.index,
+            deviceName: nameOfDevice,
             createAt: vietnamTime,
             value: nextChecked ? 1 : 0,
         }

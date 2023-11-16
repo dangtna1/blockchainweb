@@ -13,19 +13,19 @@ import { TransactionProvider } from './context/TransactionContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-    <WalletAccountsProvider>
-        <TransactionProvider>
-            <SensorDataProvider>
-                <ControllerProvider>
-                    <CropInfoProvider>
-                        <AdafruitProvider>
-                            <Provider store={store}>
+    <Provider store={store}>
+        <WalletAccountsProvider>
+            <TransactionProvider>
+                <SensorDataProvider>
+                    <ControllerProvider>
+                        <CropInfoProvider>
+                            <AdafruitProvider>
                                 <App />
-                            </Provider>
-                        </AdafruitProvider>
-                    </CropInfoProvider>
-                </ControllerProvider>
-            </SensorDataProvider>
-        </TransactionProvider>
-    </WalletAccountsProvider>
+                            </AdafruitProvider>
+                        </CropInfoProvider>
+                    </ControllerProvider>
+                </SensorDataProvider>
+            </TransactionProvider>
+        </WalletAccountsProvider>
+    </Provider>
 )

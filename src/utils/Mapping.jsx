@@ -60,31 +60,32 @@ export const unitMapping = {
 
 export const NameToUnitMapping = {
     //for history display
-    Temperature: '°C',
+    'Soil Temperature': '°C',
     'Air Temperature': '°C',
     'Water Temperature': '°C',
     'Water pH': '',
-    'Water EC': '',
-    'Water ORP': '',
-    Humidity: '%',
+    'Water EC': 'ppm',
+    'Water ORP': 'ppm',
+    'Soil Humidity': '%',
     'Air Humidity': '%',
     'Air CO2': '',
     'Air Light': '',
     'Soil pH': 'pH',
-    EC: 'ppm',
-    N: '',
-    P: '',
-    K: '',
+    'Soil EC': 'ppm',
+    'Soil N': '',
+    'Soil P': '',
+    'Soil K': '',
 }
 
 export const feedKeyToNameMapping = {
-    temp: 'Temperature',
-    humi: 'Humidity',
+    //soil
+    temp: 'Soil Temperature',
+    humi: 'Soil Humidity',
     soilph: 'Soil pH',
-    ec: 'EC',
-    n: 'N',
-    p: 'P',
-    k: 'K',
+    ec: 'Soil EC',
+    n: 'Soil N',
+    p: 'Soil P',
+    k: 'Soil K',
     //air
     'air-temp': 'Air Temperature',
     'air-humi': 'Air Humidity',

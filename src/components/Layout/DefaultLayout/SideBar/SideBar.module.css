@@ -1,5 +1,5 @@
 .sideBar {
-    @apply rounded-md z-50 fixed top-16 w-fit h-fit px-1 py-2 shadow-layout bg-white;
+    @apply  z-50 fixed w-fit h-fit px-1 py-2 shadow-layout bg-emerald-950;
     @screen laptop {
         @apply sticky flex-col top-0 h-screen p-4;
     }

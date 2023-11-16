@@ -3,7 +3,7 @@ import controllerContract from './ControllerContract.json'
 import sensorDataContract from './SensorDataContract.json'
 import transaction from './Transactions.json'
 
-export const cropInfoAddress = '0x7D8bC4c0a853560842C302834e6e807386197552'
+export const cropInfoAddress = '0x7Ef5ea0e10C662d0CbF43E938F9e2fAb0e4eDF41'
 export const cropInfoABI = cropInfo.abi
 
 export const controllerAddress = '0x6856d209b1f6d31337800104413BB1A271562b35'

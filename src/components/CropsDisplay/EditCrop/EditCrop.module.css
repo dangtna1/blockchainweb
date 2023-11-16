@@ -76,6 +76,7 @@
             @apply relative flex flex-col gap-1.5;
             label {
                 @apply opacity-70 pointer-events-none transform transition-all duration-100 absolute py-3 px-4 font-bold text-main-300;
+                @apply bg-white opacity-100 py-0 px-2 text-sm bg-transparent transform -translate-x-2 -translate-y-6;
             }
             input {
                 @apply border border-[#9EB384] rounded-lg w-full py-3 px-4 text-main-400 leading-tight focus:outline-none;
@@ -88,13 +89,18 @@
             }
         }
     }
-    .item > input:focus ~ label,
-    .item > input:valid ~ label {
-        @apply bg-white opacity-100 py-0 px-2 text-sm bg-transparent transform -translate-x-2 -translate-y-6;
-    }
 
     .Submit {
         @apply mt-6 bg-main-300 hover:bg-main-200 hover:text-main-300 text-white font-semibold py-2.5 px-6 rounded-md;
+        width: 115px;
+    }
+    .Cancel {
+        @apply mt-6 mr-3 bg-main-200 text-white font-semibold py-2.5 px-6 rounded-md flex justify-center;
+        background-color: #cccccc;
+        &:hover {
+            background-color: #bbbbbb;
+            color: grey;
+        }
         width: 115px;
     }
 }

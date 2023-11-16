@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import classes from './Crop.module.css'
 //logos
 import croptype from '../../../assets/cropsDisplay/croptype.svg'
@@ -55,12 +56,12 @@ const Crop = (props) => {
                 </div>
 
                 <div className='flex justify-end'>
-                    <button
+                    <NavLink
+                        to={`edit/${parseInt(crop.cropId)}`}
                         className='rounded-full bg-main-300 text-white font-bold px-6 py-1'
-                        onClick={() => alert('This feature is being developed')}
                     >
-                        Buy
-                    </button>
+                        Edit
+                    </NavLink>
                 </div>
             </div>
         </>

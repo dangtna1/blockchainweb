@@ -7,7 +7,7 @@ import { shortenAddress } from '../../utils/shortenAddress'
 import Pic from '../../assets/Form/Pic.png'
 import classes from './Form.module.css'
 
-const Input = ({ placeholder, name, type, value, handleChange, required }) => (
+const Input = ({ placeholder, name, type, value, handleChange, required, disabled }) => (
     <input
         placeholder={placeholder}
         type={type}
@@ -16,6 +16,8 @@ const Input = ({ placeholder, name, type, value, handleChange, required }) => (
         onChange={(e) => handleChange(e, name)}
         className={classes.input}
         required={required}
+        disabled={disabled}
+        min={1}
     />
 )
 
@@ -23,17 +25,12 @@ const Label = ({ children }) => <label className={classes.label}>{children}</lab
 
 export default function Form() {
     const { currentAccount } = useContext(WalletAccountsContext)
-    const { formData, handleChange, addCropInfoToBlockChain, initializeACrop, isLoading } =
+    const { handleChange, addCropInfoToBlockChain, initializeACrop, isLoading } =
         useContext(CropInfoContext)
 
     const handleSubmit = (e) => {
         console.log('submit')
-        const { cropType, plantingDate, harvestDate } = formData
         e.preventDefault()
-        if (!cropType || !plantingDate || !harvestDate) {
-            alert('Please fill all compulsary fields')
-            return
-        }
         addCropInfoToBlockChain()
     }
 
@@ -105,65 +102,56 @@ export default function Form() {
                                 <div className={classes.item}>
                                     <Input
                                         required={true}
-                                        name='fertilizers'
-                                        type='text'
+                                        name='noOfCrops'
+                                        type='number'
                                         handleChange={handleChange}
                                     />
-                                    <Label>Fertilizes</Label>
-                                    <Input
-                                        placeholder='fertilizer1, fertilizer2, fertilizer3, ...'
-                                        name='fertilizers'
-                                        type='text'
-                                        handleChange={handleChange}
-                                    />
+                                    <Label>No. crops</Label>
                                 </div>
 
                                 <div className={classes.item}>
                                     <Input
-                                        required={true}
+                                        required={false}
+                                        name='fertilizers'
+                                        type='text'
+                                        handleChange={handleChange}
+                                        placeholder='fertilizer1, fertilizer2, fertilizer3, ...'
+                                    />
+                                    <Label>Fertilizers </Label>
+                                </div>
+
+                                <div className={classes.item}>
+                                    <Input
+                                        required={false}
                                         name='pesticides'
                                         type='text'
                                         handleChange={handleChange}
+                                        disabled={false}
+                                        placeholder='pesticide1, pesticide2, pesticide3, ...'
                                     />
                                     <Label>Pesticides</Label>
-                                    <Input
-                                        placeholder='pesticide1, pesticide2, pesticide3, ...'
-                                        name='pesticides'
-                                        type='text'
-                                        handleChange={handleChange}
-                                    />
                                 </div>
 
                                 <div className={classes.item}>
                                     <Input
-                                        required={true}
+                                        required={false}
                                         name='diseases'
                                         type='text'
                                         handleChange={handleChange}
+                                        placeholder='disease1, disease2, disease3, ...'
                                     />
                                     <Label>Diseases</Label>
-                                    <Input
-                                        placeholder='disease1, disease2, disease3, ...'
-                                        name='diseases'
-                                        type='text'
-                                        handleChange={handleChange}
-                                    />
                                 </div>
 
                                 <div className={classes.item}>
                                     <Input
-                                        required={true}
+                                        required={false}
                                         name='additionalInfo'
                                         type='text'
                                         handleChange={handleChange}
+                                        placeholder='additional information'
                                     />
                                     <Label>Additional information</Label>
-                                    <Input
-                                        placeholder='Additional information'
-                                        name='additionalInfo'
-                                        type='text'
-                                        handleChange={handleChange}
-                                    />
                                 </div>
                             </div>
 
