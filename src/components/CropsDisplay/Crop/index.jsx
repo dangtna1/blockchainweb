@@ -1,5 +1,11 @@
+import { useContext } from 'react'
+
+import { BsInfoCircle } from 'react-icons/bs'
+
 import { NavLink } from 'react-router-dom'
 import classes from './Crop.module.css'
+
+import { CropInfoContext } from '../../../context/CropInfoContext'
 //logos
 import croptype from '../../../assets/cropsDisplay/croptype.svg'
 import date from '../../../assets/cropsDisplay/date.svg'
@@ -9,7 +15,37 @@ import cropdisease from '../../../assets/cropsDisplay/cropdisease.svg'
 import cropnote from '../../../assets/cropsDisplay/cropnote.svg'
 
 const Crop = (props) => {
+    const { updateCropHarvestDate } = useContext(CropInfoContext)
     const crop = props.crop
+
+    const handleHarvest = (e) => {
+        e.preventDefault()
+        console.log(`harvest crop ${crop.cropId}`)
+
+        const options = {
+            timeZone: 'Asia/Ho_Chi_Minh',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        }
+        const actualHarvestDate = new Date().toLocaleString('en-US', options)
+
+        updateCropHarvestDate(
+            crop.cropId,
+            crop.cropType,
+            crop.plantingDate,
+            crop.harvestDate,
+            crop.fertilizers,
+            crop.pesticides,
+            crop.diseases,
+            crop.additionalInfo,
+            actualHarvestDate
+        )
+    }
+
     return (
         <>
             <div key={props.index} className={classes.crop}>
@@ -17,6 +53,13 @@ const Crop = (props) => {
                     <img src={croptype} alt='crop type' />
                     <p className='text-primary-200 mx-2'>Name: </p>
                     <span>{crop.cropType}</span>
+                    {crop.actualHarvestDate !== '' && (
+                        <div className='flex justify-end w-full'>
+                            <NavLink to={`detail/${parseInt(crop.cropId)}`}>
+                                <BsInfoCircle fontSize={17} color='#000' />
+                            </NavLink>
+                        </div>
+                    )}
                 </div>
 
                 <div className='flex jutify-center items-center'>
@@ -55,7 +98,15 @@ const Crop = (props) => {
                     <span>{crop.additionalInfo || 'none'}</span>
                 </div>
 
-                <div className='flex justify-end'>
+                <div className='flex justify-end mt-2'>
+                    {crop.actualHarvestDate == '' && (
+                        <button
+                            className='rounded-full bg-main-400 text-white font-bold px-3 py-1 mr-1'
+                            onClick={(e) => handleHarvest(e)}
+                        >
+                            Harvest
+                        </button>
+                    )}
                     <NavLink
                         to={`edit/${parseInt(crop.cropId)}`}
                         className='rounded-full bg-main-300 text-white font-bold px-6 py-1'

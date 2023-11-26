@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { WalletAccountsContext } from '../../../../context/WalletAccountsContext'
 import { ControllerContext } from '../../../../context/ControllerContext'
 import { AdafruitContext } from '../../../../context/AdafruitContext'
+import { CropInfoContext } from '../../../../context/CropInfoContext'
 import { pushControllerInfo, resetAll } from '../../../../store/careHistorySlice'
 import { updateSignal } from '../../../../store/controllerSlice'
 import MySwitch from '../../../Layout/DefaultLayout/UI/Switch'
@@ -23,6 +24,7 @@ const Device = ({ classes, device }) => {
     const { currentAccount } = useContext(WalletAccountsContext)
     const { addControllersInfoToBlockchain } = useContext(ControllerContext)
     const { fetchControllerInfo, publishControllerInfo } = useContext(AdafruitContext)
+    const { updateFertilizers } = useContext(CropInfoContext)
 
     const controllerSignals = useSelector((state) => state.controller.controllerSignals)
     const controllers = useSelector((state) => state.careHistory.controllersInfo)
@@ -64,6 +66,27 @@ const Device = ({ classes, device }) => {
         }
 
         if (controllersCount === 10) {
+            const arrayFertilizers = []
+            for (let i = 0; i < controllers.length; i++) {
+                if (
+                    controllers[i].deviceName === 'Nutritious Liquid 1' &&
+                    controllers[i].value === 1
+                ) {
+                    if (!arrayFertilizers.includes('N')) arrayFertilizers.push('N')
+                } else if (
+                    controllers[i].deviceName === 'Nutritious Liquid 2' &&
+                    controllers[i].value === 1
+                ) {
+                    if (!arrayFertilizers.includes('P')) arrayFertilizers.push('P')
+                } else if (
+                    controllers[i].deviceName === 'Nutritious Liquid 3' &&
+                    controllers[i].value === 1
+                ) {
+                    if (!arrayFertilizers.includes('K')) arrayFertilizers.push('K')
+                }
+            }
+            console.log(arrayFertilizers)
+            updateFertilizers(arrayFertilizers)
             addControllersInfoToBlockchain(controllers)
             dispatch(resetAll())
         }
@@ -74,6 +97,15 @@ const Device = ({ classes, device }) => {
 
         // publish to adafruit
         publishControllerInfo(`relays.relay${device.index}`, Number(nextChecked))
+
+        // update fertiliers for all crops
+        // if (nameOfDevice === 'Nutritious Liquid 1' && controller.value === 1) {
+        //     updateFertilizers(['N'])
+        // } else if (nameOfDevice === 'Nutritious Liquid 2' && controller.value === 1) {
+        //     updateFertilizers(['P'])
+        // } else if (nameOfDevice === 'Nutritious Liquid 3' && controller.value === 1) {
+        //     updateFertilizers(['K'])
+        // }
     }
 
     const deviceStatus = controllerSignals[device.index - 1] == 1

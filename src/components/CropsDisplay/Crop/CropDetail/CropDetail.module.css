@@ -1,0 +1,60 @@
+.MainTitle {
+    @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200;
+}
+
+.timestamp {
+    @apply font-lato font-bold text-sky-700;
+}
+
+.airTimestamp {
+    @apply font-lato font-bold text-main-300;
+}
+.soilTimestamp {
+    @apply font-lato font-bold text-yellow-600;
+}
+.waterTimestamp {
+    @apply font-lato font-bold text-sky-500;
+}
+
+.detail-link {
+    @apply font-light text-primary-200 underline;
+}
+
+.history-container {
+    @apply w-fit grid grid-cols-2 mt-5;
+
+    .custom-scrollbar {
+        @apply overflow-x-auto overflow-y-auto h-screen border-2 rounded-lg p-2;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+}
+
+.export-button {
+    @apply bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded;
+}
+
+.history-container {
+    @apply w-full grid grid-cols-1 mt-5 border-2;
+    @screen laptop {
+        @apply flex justify-center;
+    }
+}
+
+.outer-image-container {
+    @apply hidden;
+    @screen laptop {
+        @apply w-full grid grid-cols-2 even:grayscale;
+    }
+    .image-container {
+        @apply border rounded-lg hover:grayscale-0;
+
+        .image-style {
+            @apply w-full h-full object-cover rounded-lg;
+        }
+    }
+}
+
+.Cancel {
+    @apply bg-main-200 text-white font-semibold py-2.5 px-6 rounded-md flex justify-center bg-main-300 hover:bg-main-200 hover:text-main-300;
+    width: 115px;
+}

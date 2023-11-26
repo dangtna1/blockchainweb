@@ -4,6 +4,7 @@ import CropsDisplay from '../components/CropsDisplay'
 import Market from '../components/Market'
 import History from '../components/History'
 import EditCrop from '../components/CropsDisplay/EditCrop'
+import CropDetail from '../components/CropsDisplay/Crop/CropDetail'
 
 const publicRoutes = [
     { path: '/', component: Dashboard },
@@ -12,6 +13,7 @@ const publicRoutes = [
     { path: '/market', component: Market },
     { path: '/history', component: History },
     { path: '/crops-display/edit/:id', component: EditCrop },
+    { path: '/crops-display/detail/:id', component: CropDetail },
     //add more public paths here
 ]
 

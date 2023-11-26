@@ -6,6 +6,7 @@ import { updateSignal } from '../../../../store/controllerSlice'
 import { pushControllerInfo, resetAll } from '../../../../store/careHistorySlice'
 import { AdafruitContext } from '../../../../context/AdafruitContext'
 import { ControllerContext } from '../../../../context/ControllerContext'
+import { CropInfoContext } from '../../../../context/CropInfoContext'
 import { deviceIndexToNameMapping } from '../../../../utils/Mapping'
 import MicroImage from '../../../../assets/Dashboard/Micro/icons8-microphone-64.png'
 
@@ -16,6 +17,7 @@ const SpeechButton = () => {
 
     const { addControllersInfoToBlockchain } = useContext(ControllerContext)
     const { publishControllerInfo } = useContext(AdafruitContext)
+    const { updateFertilizers } = useContext(CropInfoContext)
 
     // const controllerSignals = useSelector((state) => state.controller.controllerSignals)
     const controllers = useSelector((state) => state.careHistory.controllersInfo)
@@ -128,6 +130,27 @@ const SpeechButton = () => {
 
     useEffect(() => {
         if (controllersCount === 10) {
+            const arrayFertilizers = []
+            for (let i = 0; i < controllers.length; i++) {
+                if (
+                    controllers[i].deviceName === 'Nutritious Liquid 1' &&
+                    controllers[i].value === 1
+                ) {
+                    if (!arrayFertilizers.includes('N')) arrayFertilizers.push('N')
+                } else if (
+                    controllers[i].deviceName === 'Nutritious Liquid 2' &&
+                    controllers[i].value === 1
+                ) {
+                    if (!arrayFertilizers.includes('P')) arrayFertilizers.push('P')
+                } else if (
+                    controllers[i].deviceName === 'Nutritious Liquid 3' &&
+                    controllers[i].value === 1
+                ) {
+                    if (!arrayFertilizers.includes('K')) arrayFertilizers.push('K')
+                }
+            }
+            console.log(arrayFertilizers)
+            updateFertilizers(arrayFertilizers)
             addControllersInfoToBlockchain(controllers)
             dispatch(resetAll())
         }
