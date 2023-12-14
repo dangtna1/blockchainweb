@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { useParams, NavLink } from 'react-router-dom'
+import QRCode from 'react-qr-code'
 
 import { CropInfoContext } from '../../../../context/CropInfoContext'
 import { ControllerContext } from '../../../../context/ControllerContext'
@@ -66,55 +67,49 @@ const CropDetail = () => {
                 }
 
                 setGeneralInfo(structuredCrop)
+
+                //add history care of this crop
+                const plantingDateTime = convertToDateTime(structuredCrop.plantingDate)
+                const harvestDateTime = convertToDateTime(structuredCrop.actualHarvestDate)
+                //controller history
+                const cropCareHistory = []
+                for (let i = 0; i < controllersInfo.length; i++) {
+                    const controllerDateTime = convertToDateTime(controllersInfo[i].createAt)
+                    if (
+                        controllerDateTime >= plantingDateTime &&
+                        controllerDateTime <= harvestDateTime
+                    ) {
+                        cropCareHistory.push(controllersInfo[i])
+                    }
+                }
+                //add Log field to controller history
+                for (let i = 0; i < cropCareHistory.length; i++) {
+                    const signal = cropCareHistory[i].value === 1 ? 'on' : 'off'
+                    let historyLine = `${cropCareHistory[i].deviceName} was turned ${signal}`
+
+                    cropCareHistory[i] = {
+                        ...cropCareHistory[i],
+                        historyLine,
+                    }
+                }
+
+                //sensors history
+                const cropSensorsData = []
+                for (let i = 0; i < sensorsData.length; i++) {
+                    const sensorDateTime = convertToDateTime(sensorsData[i].createAt)
+                    if (sensorDateTime >= plantingDateTime && sensorDateTime <= harvestDateTime) {
+                        cropSensorsData.push(sensorsData[i])
+                    }
+                }
+
+                setCropCareHistory(cropCareHistory)
+                setCropSensorHistory(cropSensorsData)
             } catch (error) {
                 console.log(error)
             }
         }
         fetchCropInfo()
-
-        //add history care of this crop
-        const timerId = setTimeout(() => {
-            const plantingDateTime = convertToDateTime(structuredCrop.plantingDate)
-            const harvestDateTime = convertToDateTime(structuredCrop.actualHarvestDate)
-            //controller history
-            const cropCareHistory = []
-            for (let i = 0; i < controllersInfo.length; i++) {
-                const controllerDateTime = convertToDateTime(controllersInfo[i].createAt)
-                if (
-                    controllerDateTime >= plantingDateTime &&
-                    controllerDateTime <= harvestDateTime
-                ) {
-                    cropCareHistory.push(controllersInfo[i])
-                }
-            }
-            //add Log field to controller history
-            for (let i = 0; i < cropCareHistory.length; i++) {
-                const signal = cropCareHistory[i].value === 1 ? 'on' : 'off'
-                let historyLine = `${cropCareHistory[i].deviceName} was turned ${signal}`
-
-                cropCareHistory[i] = {
-                    ...cropCareHistory[i],
-                    historyLine,
-                }
-            }
-
-            //sensors history
-            const cropSensorsData = []
-            for (let i = 0; i < sensorsData.length; i++) {
-                const sensorDateTime = convertToDateTime(sensorsData[i].createAt)
-                if (sensorDateTime >= plantingDateTime && sensorDateTime <= harvestDateTime) {
-                    cropSensorsData.push(sensorsData[i])
-                }
-            }
-
-            setCropCareHistory(cropCareHistory)
-            setCropSensorHistory(cropSensorsData)
-        }, 2000)
-
-        return () => {
-            clearTimeout(timerId)
-        }
-    }, [])
+    })
 
     const convertDateFormat = (dateString) => {
         const parsedDate = new Date(dateString)
@@ -136,46 +131,48 @@ const CropDetail = () => {
                 <h2 className='text-primary-300 font-semibold text-xl'>GENERAL INFORMATION</h2>
 
                 <div>
-                    <div className='flex jutify-center items-center'>
-                        <img src={croptype} alt='' />
-                        <p className='text-primary-200 mx-2'>Name: </p>
-                        <span>{generalInfo.cropType}</span>
-                    </div>
+                    <div>
+                        <div className='flex jutify-center items-center'>
+                            <img src={croptype} alt='' />
+                            <p className='text-primary-200 mx-2'>Name: </p>
+                            <span>{generalInfo.cropType}</span>
+                        </div>
 
-                    <div className='flex jutify-center items-center'>
-                        <img src={date} alt='' />
-                        <p className='text-primary-200 mx-2'>Planting date: </p>
-                        <span>{convertDateFormat(generalInfo.plantingDate)}</span>
-                    </div>
+                        <div className='flex jutify-center items-center'>
+                            <img src={date} alt='' />
+                            <p className='text-primary-200 mx-2'>Planting date: </p>
+                            <span>{convertDateFormat(generalInfo.plantingDate)}</span>
+                        </div>
 
-                    <div className='flex jutify-center items-center'>
-                        <img src={date} alt='' />
-                        <p className='text-primary-200 mx-2'>Harvest:</p>
-                        <span>{generalInfo.actualHarvestDate}</span>
-                    </div>
+                        <div className='flex jutify-center items-center'>
+                            <img src={date} alt='' />
+                            <p className='text-primary-200 mx-2'>Harvest:</p>
+                            <span>{generalInfo.actualHarvestDate}</span>
+                        </div>
 
-                    <div className='flex jutify-center items-center'>
-                        <img src={cropfer} alt='' />
-                        <p className='text-primary-200 mx-2'>Fertilizers: </p>
-                        <span>{generalInfo.fertilizers}</span>
-                    </div>
+                        <div className='flex jutify-center items-center'>
+                            <img src={cropfer} alt='' />
+                            <p className='text-primary-200 mx-2'>Fertilizers: </p>
+                            <span>{generalInfo.fertilizers}</span>
+                        </div>
 
-                    <div className='flex jutify-center items-center'>
-                        <img src={croppes} alt='' />
-                        <p className='text-primary-200 mx-2'>Pesticides: </p>
-                        <span>{generalInfo.pesticides || 'none'}</span>
-                    </div>
+                        <div className='flex jutify-center items-center'>
+                            <img src={croppes} alt='' />
+                            <p className='text-primary-200 mx-2'>Pesticides: </p>
+                            <span>{generalInfo.pesticides || 'none'}</span>
+                        </div>
 
-                    <div className='flex jutify-center items-center'>
-                        <img src={cropdisease} alt='' />
-                        <p className='text-primary-200 mx-2'>Diseases: </p>
-                        <span>{generalInfo.diseases || 'none'}</span>
-                    </div>
+                        <div className='flex jutify-center items-center'>
+                            <img src={cropdisease} alt='' />
+                            <p className='text-primary-200 mx-2'>Diseases: </p>
+                            <span>{generalInfo.diseases || 'none'}</span>
+                        </div>
 
-                    <div className='flex jutify-center items-center'>
-                        <img src={cropnote} alt='' />
-                        <p className='text-primary-200 mx-2'>Additional Information: </p>
-                        <span>{generalInfo.additionalInfo || 'none'}</span>
+                        <div className='flex jutify-center items-center'>
+                            <img src={cropnote} alt='' />
+                            <p className='text-primary-200 mx-2'>Additional Information: </p>
+                            <span>{generalInfo.additionalInfo || 'none'}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -206,6 +203,12 @@ const CropDetail = () => {
                             <CustomTable data={cropSensorHistory} type={'sensor'} />
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className={classes['history-container']}>
+                <div className='m-2'>
+                    <QRCode value={`https://blockchainweb.onrender.com/crops-display/detail/${id}`} />
                 </div>
             </div>
         </div>
