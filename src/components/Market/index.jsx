@@ -86,7 +86,7 @@ const Market = () => {
 
     return (
         <div className='w-full'>
-            <h1 className='mb-3 font-bold text-2xl self-start uppercase text-primary-200 w-full'>
+            <h1 className='mb-3 font-bold text-2xl self-start uppercase text-primary-200 w-full text-center laptop:text-left'>
                 Exchange cryptocurrencies
             </h1>
 

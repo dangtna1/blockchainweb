@@ -1,5 +1,5 @@
 .MainTitle {
-    @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200;
+    @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200 text-center laptop:text-left;
 }
 
 .timestamp {

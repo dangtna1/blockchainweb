@@ -43,7 +43,7 @@ const Device = ({ classes, device }) => {
 
     // enable or disable device
     useEffect(() => {
-        setIsEnabled(currentAccount ? true : false)
+        setIsEnabled(currentAccount === '0x0d22c5b0dbd93aeb3ba644218363d5282b40fb5e')
     }, [currentAccount])
 
     // toggle device

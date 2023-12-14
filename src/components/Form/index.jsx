@@ -159,7 +159,14 @@ export default function Form() {
                                 {isLoading ? (
                                     <Loader></Loader>
                                 ) : (
-                                    <button className={classes.Submit} type='submit'>
+                                    <button
+                                        className={classes.Submit}
+                                        type='submit'
+                                        disabled={
+                                            currentAccount !==
+                                            '0x0d22c5b0dbd93aeb3ba644218363d5282b40fb5e'
+                                        }
+                                    >
                                         Publish
                                     </button>
                                 )}

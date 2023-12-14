@@ -1,6 +1,6 @@
 .crop-display {
     @apply w-full h-full flex flex-col justify-center items-center;
     .title {
-        @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200;
+        @apply mb-3 font-bold text-2xl self-start uppercase text-primary-200 text-center laptop:text-left w-full;
     }
 }

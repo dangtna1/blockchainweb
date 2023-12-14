@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import classes from './Crop.module.css'
 
 import { CropInfoContext } from '../../../context/CropInfoContext'
+import { WalletAccountsContext } from '../../../context/WalletAccountsContext'
 //logos
 import croptype from '../../../assets/cropsDisplay/croptype.svg'
 import date from '../../../assets/cropsDisplay/date.svg'
@@ -16,6 +17,7 @@ import cropnote from '../../../assets/cropsDisplay/cropnote.svg'
 
 const Crop = (props) => {
     const { updateCropHarvestDate } = useContext(CropInfoContext)
+    const { currentAccount } = useContext(WalletAccountsContext)
     const crop = props.crop
 
     const handleHarvest = (e) => {
@@ -99,20 +101,23 @@ const Crop = (props) => {
                 </div>
 
                 <div className='flex justify-end mt-2'>
-                    {crop.actualHarvestDate == '' && (
-                        <button
-                            className='rounded-full bg-main-400 text-white font-bold px-3 py-1 mr-1'
-                            onClick={(e) => handleHarvest(e)}
+                    {crop.actualHarvestDate == '' &&
+                        currentAccount === '0x0d22c5b0dbd93aeb3ba644218363d5282b40fb5e' && (
+                            <button
+                                className='rounded-full bg-main-400 text-white font-bold px-3 py-1 mr-1'
+                                onClick={(e) => handleHarvest(e)}
+                            >
+                                Harvest
+                            </button>
+                        )}
+                    {currentAccount === '0x0d22c5b0dbd93aeb3ba644218363d5282b40fb5e' && (
+                        <NavLink
+                            to={`edit/${parseInt(crop.cropId)}`}
+                            className='rounded-full bg-main-300 text-white font-bold px-6 py-1'
                         >
-                            Harvest
-                        </button>
+                            Edit
+                        </NavLink>
                     )}
-                    <NavLink
-                        to={`edit/${parseInt(crop.cropId)}`}
-                        className='rounded-full bg-main-300 text-white font-bold px-6 py-1'
-                    >
-                        Edit
-                    </NavLink>
                 </div>
             </div>
         </>

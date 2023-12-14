@@ -9,10 +9,10 @@ export const ControllerContext = createContext()
 const { ethereum } = window
 
 const createControllerContract = () => {
-    // const privateKey = import.meta.env.VITE_PRIVATE_KEY; //to use this, create .env at root and include your private key there
+    // const privateKey = import.meta.env.VITE_PRIVATE_KEY //to use this, create .env at root and include your private key there
     const provider = new ethers.providers.Web3Provider(ethereum)
-    const signer = provider.getSigner()
-    // const wallet = new ethers.Wallet(privateKey, provider); //uncomment this
+    const signer = provider.getSigner() //comment this
+    // const wallet = new ethers.Wallet(privateKey, provider) //uncomment this
     const controllerContract = new ethers.Contract(controllerAddress, controllerABI, signer) //change signer to wallet
     return controllerContract
 }

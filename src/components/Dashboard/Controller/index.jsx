@@ -69,7 +69,7 @@ const Controller = () => {
     return (
         <>
             <MySlider config={configuration}>{renderDevice(8)}</MySlider>
-            {currentAccount && <SpeechButton/>}
+            {currentAccount === '0x0d22c5b0dbd93aeb3ba644218363d5282b40fb5e' && <SpeechButton/>}
         </>
     )
 }
